@@ -387,6 +387,7 @@ Podemos usar los siguientes tipos de datos:
 - `xsd:int`: número entero de 32 bits.
 - `xsd:long`: entero de 64 bits.
 - `xsd:integer`: número entero sin límite de capacidad.
+- `xsd:decimal`: número con decimales.
 - `xsd:unsignedByte`: entero de 8 bits sin signo.
 - `xsd:unsignedShort`: entero de 16 bits sin signo.
 - `xsd:unsignedInt`: entero de 32 bits sin signo.
