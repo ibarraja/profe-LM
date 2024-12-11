@@ -254,6 +254,11 @@ Se pueden combinar cuantificadores y operadores para expresar reglas máscomplej
 En este caso estariamos expresando que un cliente tiene tener uno de los siguientes elementos una única vez: `<nombre>`, `<apodo>` o `<apellido1>`; seguido por uno o varios elementos `<direccion>` y por ultimo con la opción de mostrar una o varias veces los elementos `<email_contacto>` y/o `<telefono>` tantas veces como sea necesario. 
 
 ---
+## Elementos EMPTY
+
+**por desarrollar**
+
+---
 
 ## Ejemplo de DTD para productos
 
