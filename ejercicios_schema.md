@@ -44,7 +44,7 @@ Escribe un esquema que valide:
 
 `<nombre>` y `<apellido>` son cadenas de texto.
 `<edad>` es un número entero entre 0 y 120.
-`<email>` debe tener un formato válido (ejemplo: texto@dominio.com).
+`<email>` debe tener un formato válido (ejemplo: texto@dominio.com). Ayuda: `<xsd:pattern value=".+@.+\..+"/>`
 
 Archivo XSD solucion:
 ```xml
