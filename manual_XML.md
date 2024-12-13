@@ -1,6 +1,6 @@
 # XML
 
-## Introducción
+## 0 - Introducción
 
 Los lenguajes de marcas como HTML tienen una orientación muy clara: describir páginas web.
 
@@ -8,8 +8,7 @@ En un contexto distinto, muy a menudo ocurre que es muy difícil intercambiar da
 
 XML es un conjunto de tecnologías orientadas a crear nuestros propios lenguajes de marcas. A estos lenguajes de marcas «propios» se les denomina «vocabularios».
 
----
-## Un ejemplo sencillo
+### 0.1 - Un ejemplo sencillo
 ```xml
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -28,10 +27,8 @@ Lo fundamental es que podemos crear nuestros propios «vocabularios» XML.
 
 ---
 
-## Construcción de XML
-
+## 1 - Construcción de XML
 Para crear XML es importante recordar una serie de reglas:
-
 1. **Sensibilidad a mayúsculas y minúsculas**: XML es «case-sensitive», es decir que no es lo mismo `<cliente>` que `<Cliente>` o `<CLIENTE>`.
 2. **Elemento raíz obligatorio**: Solo puede haber un elemento raíz.
 3. **Estilo en minúsculas**: En general, se prefiere utilizar todo en minúsculas.
@@ -42,7 +39,7 @@ Para crear XML es importante recordar una serie de reglas:
 
 ---
 
-## Validez
+## 2 - Validez
 Un documento XML puede «estar bien formado» o «ser válido». Se dice que un documento «está bien formado» cuando respeta las reglas XML básicas. Si alguien ha definido las reglas XML para un vocabulario, podremos además decir si el documento es válido o no, lo cual es mejor que simplemente estar bien formado.
 
 Por ejemplo, los siguientes archivos ni siquiera están bien formados.
@@ -100,7 +97,7 @@ Para determinar si un documento esta bien formado o comprobar si es válido o no
 
 ---
 
-## Gramáticas y DTD
+## 3 - Gramáticas y DTD
 Pensemos en el siguiente problema, un programador crea aplicaciones con documentos que se almacenan así:
 
 ```xml
@@ -165,10 +162,10 @@ Expliquemos el código línea a línea:
     - `nombre`, `cif`  y `diasentrega` son los nombres de los elementos que estamos definiendo.
     - `(#PCDATA)` significa "Parsed Character Data" o "Datos de Carácter Analizados". Especifica que un elemento XML puede contener texto.
 
-### Declaración <!DOCTYPE[]>
+### 3.1 - Declaración <!DOCTYPE[]>
 La declaración `<!DOCTYPE[]>` es una parte fundamental de los docuemtnos XML y HTML que indica el **Tipo de Docuemnto** (Document Type Declaration, o DTD). Especifciamente, le dice al procesador cómo válidar el docuemtno XML en función de un conjunto de reglas. Además, indica qué elementos y atributos son válidos, en que orden deben de aparecer y que tipo de datos pueden contener.
 
-#### Hay dos tripos de usos de DTD:
+#### Tipos de usos de DTD:
 
 **DTD Interna**
 Cuando las reglas de validación están incluidas dentro del docuemento XML. Son las que hacemos siempre en clase:
@@ -217,7 +214,7 @@ Y por otro el **archivo DTD** `biblioteca.dtd`:
 
 Usaremos el DTD externo cuando tengamos que trabajar con muchos archivos XML que compartan diferente información pero con estructura idéntica.
 
-### Cuantificadores en DTD
+### 3.2 - Cuantificadores en DTD
 En DTD, los cuantificadores determinan cúantas veces puede aparecer un **elemento dentro de otro elemento**. A continuación, se explican los principales cuantificadores: 
 
 1. **Opcional (`?`)**: Aparece 0 o 1 vez. Se utiliza cuando es opcional.
@@ -225,7 +222,7 @@ En DTD, los cuantificadores determinan cúantas veces puede aparecer un **elemen
 3. **Cero o muchas veces (`*`)**: Puede aparecer cualquier cantidad de veces, incluyendo 0. Se utiliza cuando elemento es opcional y puede repetirse.   
 4. **Obligatorio (` `)**: Si aparece el elemento sin ningún cuantificador, es decir que aparece el elemento sin nada detrás, es que el elemento es obligatorio y no se puede repetir. Obviamente su uso esta restringido a los elementos que queramos que aparezcan obligatoriamente una sola vez dentro del elemento padre.
 
-### Operadores de alternacia `,` y `|`.
+### 3.3 - Operadores de alternacia `,` y `|`.
 Ademas de los cuantificadores, los operadores `,` y `|` permiten definir relaciones entre elementos hijos. Un elemento hijo es aquel elemento que pertence o que forma parte del contenido de otro elemento (padre) que puede englobar uno o mas elementos. Si engloba mas de un elemento a los elementos hijos entre si se llaman elementos hermanos.
 
 **Operador de secuencia `,`** 
@@ -244,7 +241,7 @@ Indica que solo uno de los elementos especificados alrededor de `|` puede aparec
 
 en el XML dentro de `<cliente>` solo puede aparecer un único elemento que puede ser nombre o dirección.
 
-### Combinando cuantificadores con operadores
+**Combinando cuantificadores con operadores**
 Se pueden combinar cuantificadores y operadores para expresar reglas máscomplejas. Ejemplos:
 
 
@@ -253,14 +250,8 @@ Se pueden combinar cuantificadores y operadores para expresar reglas máscomplej
 ``` 
 En este caso estariamos expresando que un cliente tiene tener uno de los siguientes elementos una única vez: `<nombre>`, `<apodo>` o `<apellido1>`; seguido por uno o varios elementos `<direccion>` y por ultimo con la opción de mostrar una o varias veces los elementos `<email_contacto>` y/o `<telefono>` tantas veces como sea necesario. 
 
----
-## Elementos EMPTY
 
-**por desarrollar**
-
----
-
-## Ejemplo de DTD para productos
+### 3.4 - Ejemplo de DTD para productos
 
 Se pide un conjunto de reglas en forma de DTD para definir qué se permitirá en los archivos XML de datos de una empresa de fabricación:
 
@@ -354,10 +345,104 @@ Y este también (a pesar del flagrante error en el peso)
     </teclado>
 </productos>
 ```
+---
+
+## 4 - Elementos EMPTY
+En un DTD, la palabra clave `EMPTY` se utiliza para declarar que un elemento no contiene contenido; es decir, no puede tener texto ni elementos hijos. Esta declaración es útil para elementos que actúan como marcadores o que no requieren contenido interno.
+
+Sintaxis DTD:
+```xml
+<!ELEMENT nombre_del_elemento EMPTY>
+```
+Ejemplo DTD:
+```xml
+<!ELEMENT entregado EMPTY>
+```
+En este ejemplo, el elemento `<entregado>` se declara como vacío, lo que indica que no debe contener contenido. En un documento **XML**, se representaría como:
+```xml
+<entregado/>
+```
+o
+```xml
+<entregado></entregado>
+```
+Ambas formas son válidas para elementos vacíos.
+
+Nota: Aunque un elemento se declare como vacío, aún puede tener atributos. Por ejemplo:
+```xml
+<!ELEMENT entregado EMPTY>
+<!ATTLIST entregado
+    id ID #REQUIRED
+    procedencia CDATA #IMPLIED>
+```
+Aquí, el elemento `<entregado>` es vacío pero tiene los atributos `id` y `procedencia`.
+
+___
+
+## 5 - Atributos XML
+En XML, los **atributos** proporcionan información adicional sobre los elementos y se declaran utilizando la directiva `<!ATTLIST>`. Esta declaración especcifica qué atributos están permitidos para un determinado elemento, su tipo de datos y si son obligatorios, opcionales o tienen un valor predeterminado. En el XML se definen dentro de la etiqueta de apertura de un elemento y consisten en pares nombre-valor. Por ejemplo:
+
+```xml
+<producto codigo="G45" color="negro" precio="12.56">Gorro de lana</producto>
+```
+
+En este caso, `codigo`, `color` y `precio` son atributos del elemento `<producto>`.
+
+### 5.1 - Sintaxis de la declaración de atrobutos en DTD:
+```xml
+<!ATTLIST nombre_elemento
+          nombre_atributo tipo_atributo valor_predeterminado>
+```
+- `nombre_elemento`: Nombre del elemento al que se le asigna el atributo.
+- `nombre_atributo`: Nombre del atributo que se está declarando.
+- `tipo_atributo`: Tipo de datos que el atributo puede contener. 
+- `valor_predeterminado`: Especifica si el atributo es obligatorio (`#REQUIRED`), opcional (`#IMPLIED`), tiene un valor fijo o un valor por defecto (`#FIXED "valor"`).
+
+### 5.2 - Tipos de atributos en DTD
+
+ - `CDATA`: Datos de caracteres; cualquier cadena de texto.
+```xml
+<!DOCTYPE producto[
+    <!ELEMENT producto EMPTY>
+    <!ATTLIST producto nombre CDATA #REQUIRED>    
+]>
+
+<producto nombre="Gorro de lana"/>
+```
+ - `Enumerados`: Lista de valores permitidos, definidos entre paréntesis y separados por barras verticales. (`opcion1|opcion2|...`).
+```xml
+<!DOCTYPE producto[
+    <!ELEMENT producto EMPTY>
+    <!ATTLIST producto nombre (monitor|pc) #REQUIRED>    
+]>
+
+<producto nombre="pc"/>
+```
+ - `ID`: Identificador único dentro del documento. Siempre tiene que venir predefinido por mínimo una letra identificadora del elemento en cuestion. Por ejemplo: `<producto id="p01">` o `<producto id="p_001">`. **Nunca** `<producto id="01">` 
+```xml
+<!DOCTYPE producto[
+    <!ELEMENT producto EMPTY>
+    <!ATTLIST producto id ID #REQUIRED>    
+]>
+
+<producto id="prod_01"/>
+```
+ - `IDREF`: Referencia a un atributo de tipo ID en otro elemento.
+ - `IDREFS`: Lista de referencias a múltiples IDs.
+ - `NMTOKEN`: Nombre válido en XML (letras, dígitos y ciertos caracteres permitidos).
+ - `NMTOKENS`: Lista de NMTOKENs separados por espacios.
+ - `ENTITY`: Nombre de una entidad general no analizada.
+ - `ENTITIES`: Lista de nombres de entidades.
+ - `NOTATION`: Nombre de una notación declarada.
+
+### 5.3 - Reglas para el uso de atributos en XML
+- **Valores entre comillas**: Los valores de los atributos deben estar entre comillas dobles (`" "`) o simples (`' '`). Por ejemplo `codigo="G45"` o `codigo='G45'`.
+- **Unicidad**: Un elemento no puede tener múltiples atributos con el mismo nombre. Por ejemplo, `<datos x="3" x="4"/>` es **incorrecto**, mientras que `<datos x="3" y="4"/>` es **válido**.
+- **Nombres válidos**: Los nombres de los atributos deben cumplir las mismas reglas que los nombres de los elementos, es decir, deben comenzar con una letra o guión bajo y no pueden contener espacios.
 
 ---
 
-## Esquemas XML
+## 6 - Esquemas XML
 Los esquemas XML son un mecanismo radicalmente distinto de crear reglas para validar ficheros XML. Se caracterizan por:
 
 Estar escritos en XML. Por lo tanto, las mismas bibliotecas que permiten procesar ficheros XML de datos permitirían procesar ficheros XML de reglas.
@@ -366,7 +451,7 @@ Son mucho más potentes: ofrecen soporte a tipos de datos con comprobación de s
 
 Ofrecen la posibilidad de usar espacios de nombres. Los espacios de nombres son similares a los paquetes Java: permiten a personas distintas el definir etiquetas con el mismo nombre pudiendo luego distinguir etiquetas iguales en función del espacio de nombres que importemos.
 
-### Un ejemplo
+**Un ejemplo**
 Supongamos que deseamos tener ficheros XML con un solo elemento llamado <cantidad> que debe tener dentro un número.
 ```xml
 <cantidad>20</cantidad>
@@ -384,7 +469,7 @@ Un posible esquema sería el siguiente:
 
 Si probamos el fichero de esquema con el fichero de datos que hemos indicado veremos que efectivamente el fichero XML de datos es válido. Sin embargo, si en lugar de una cantidad incluyésemos una cadena, veríamos que el fichero **no se validaría**.
 
-### Tipos de datos básicos:
+### 6.1 - Tipos de datos básicos:
 Podemos usar los siguientes tipos de datos:
 
 - `xsd:byte`: entero de 8 bits.
@@ -392,7 +477,6 @@ Podemos usar los siguientes tipos de datos:
 - `xsd:int`: número entero de 32 bits.
 - `xsd:long`: entero de 64 bits.
 - `xsd:integer`: número entero sin límite de capacidad.
-- `xsd:decimal`: número con decimales.
 - `xsd:unsignedByte`: entero de 8 bits sin signo.
 - `xsd:unsignedShort`: entero de 16 bits sin signo.
 - `xsd:unsignedInt`: entero de 32 bits sin signo.
@@ -407,7 +491,7 @@ Podemos usar los siguientes tipos de datos:
 - `xsd:anyURI`: acepta URIs.
 - `xsd:anyType`: es como la clase Object en Java. Será el tipo del cual heredaremos cuando no vayamos a usar ningún tipo especial como tipo padre.
 
-### Derivaciones
+### 6.2 - Derivaciones
 Prácticamente en cualquier esquema XML crearemos tipos nuevos (por establecer un símil es como si programásemos clases Java). Todos nuestros tipos tienen que heredar de otros tipos pero a la hora de «heredar» tenemos más posibilidades que en Java (dondo solo tenemos el «extends»). En concreto podemos heredar de 4 formas:
 
 1. Poniendo restricciones (`restriction`). Consiste en tomar un tipo y crear otro nuevo en el que no se puede poner cualquier valor.
@@ -417,7 +501,7 @@ Prácticamente en cualquier esquema XML crearemos tipos nuevos (por establecer u
 
 En general, las dos derivaciones más usadas con diferencia son las restricciones y las extensiones, que se comentan por separado en los puntos siguientes.
 
-### Tipos simples y complejos
+### 6.3 - Tipos simples y complejos
 Todo elemento de un esquema debe ser de uno de estos dos tipos.
 
 - Un elemento es de tipo simple si no permite dentro ni elementos hijo ni atributos.
@@ -425,7 +509,9 @@ Todo elemento de un esquema debe ser de uno de estos dos tipos.
   - Los que son de contenido simple no permiten tener dentro elementos hijo pero sí permiten atributos.
   - Los que son de contenido complejo sí permiten tener dentro elementos hijo y atributos.
 
-Así, por ejemplo un tipo simple que no lleve ninguna restricción se puede indicar con el campo type de un element como hacíamos antes:
+
+#### 6.3.1 - Tipos Simples
+Un tipo simple que no lleve ninguna restricción se puede indicar con el campo type de un element como hacíamos antes:
 
 ```xml
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -441,6 +527,7 @@ Sin embargo, si queremos indicar alguna restricción adicional ya no podremos us
 </xsd:schema>
 ```
 
+
 **Practicar ejercicio resuelto de los trabajadores:**
 
 Se desea crear un esquema que permita validar la edad de un trabajador, que debe tener un valor entero de entre 16 y 65.
@@ -455,10 +542,8 @@ Pero este no debería validarse:
 ```
 La solución podría ser algo así:
 ```xml
-<xsd:schema
- xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <xsd:element name="edad"
-                 type="tipoEdad"/>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="edad" type="tipoEdad"/>
     <xsd:simpleType name="tipoEdad">
         <xsd:restriction base="xsd:integer">
             <xsd:minInclusive value="16"/>
@@ -467,8 +552,53 @@ La solución podría ser algo así:
     </xsd:simpleType>
 </xsd:schema>
 ```
+#### 6.3.2 - Tipos Complejos
+Para hacer un XSD de un XML con elementos complejos podemos usar como ejemplo el el siguiente caso:
+```xml
+<!-- Archivo XML -->
+<clase>
+    <alumno>
+        <name>Javier</name>
+        <firstname>Ibarra</firstname>
+        <year>1995</year>
+    </alumno>
+</clase>
+```
 
-### Tipos de restricciones en esquemas XML más comunes
+A diferencia que en los tipos simples en el XSD tendremos que especificar la etiqueta `<xsd:complexType>` donde antes usabamos `<xsd:simpleType>`:
+
+```xml
+<!-- Archivo XSD -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Definición del elemento raíz -->
+    <xsd:element name="clase">
+        <xsd:complexType>
+            <xsd:sequence>
+                <!-- Definición del elemento alumno -->
+                <!-- Si queremos poner un limite de alumnos máximos -->
+                <xsd:element name="alumno" minOccurs="0" maxOccurs="1">
+                <!-- Si no quisieramos poner limite de alumnos máximos -->
+                <!-- <xsd:element name="alumno" minOccurs="0" maxOccurs="unbounded"> -->
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <!-- Subelementos de alumno -->
+                            <xsd:element name="name" type="xs:string"/>
+                            <xsd:element name="firstname" type="xs:string"/>
+                            <xsd:element name="year" type="xs:int"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>
+```
+
+
+
+### 6.4 - Tipos de restricciones en esquemas XML más comunes
 **1. Restricciones numéricas**
 
 Permiten limitar los valores de *números enteros* o *decimales*.
