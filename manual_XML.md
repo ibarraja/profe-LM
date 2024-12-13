@@ -577,15 +577,15 @@ A diferencia que en los tipos simples en el XSD tendremos que especificar la eti
             <xsd:sequence>
                 <!-- Definición del elemento alumno -->
                 <!-- Si queremos poner un limite de alumnos máximos -->
-                <xsd:element name="alumno" minOccurs="0" maxOccurs="1">
+                <!-- <xsd:element name="alumno" minOccurs="0" maxOccurs="3"> -->
                 <!-- Si no quisieramos poner limite de alumnos máximos -->
-                <!-- <xsd:element name="alumno" minOccurs="0" maxOccurs="unbounded"> -->
+                <xsd:element name="alumno" minOccurs="0" maxOccurs="unbounded">
                     <xsd:complexType>
                         <xsd:sequence>
                             <!-- Subelementos de alumno -->
-                            <xsd:element name="name" type="xs:string"/>
-                            <xsd:element name="firstname" type="xs:string"/>
-                            <xsd:element name="year" type="xs:int"/>
+                            <xsd:element name="name" type="xsd:string"/>
+                            <xsd:element name="firstname" type="xsd:string"/>
+                            <xsd:element name="year" type="xsd:int"/>
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>
