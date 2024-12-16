@@ -626,7 +626,7 @@ En Schema, podemos establecemos la opción de seleccionar una de las dos (o más
 <xsd:element name="padre">
     <xsd:complexType>
         <xsd:sequence>
-            <xsd:choice minOccurss="0" maxOccurs="unbounded">
+            <xsd:choice minOccurs="0" maxOccurs="unbounded">
                 <xsd:element name="hijo1" type="xsd:string"/>
                 <xsd:element name="hijo2" type="xsd:string"/>
             </xsd:choice>
