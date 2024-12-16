@@ -108,8 +108,8 @@ Crea un archivo XML que tenga:
   - Atributo codigo: Identificador único del equipo, de tipo ID.
   - Atributo descripcion: Descripción o nombre del equipo, de tipo CDATA.
 - Elemento miembro:
-  - Elemento sueldo: Representa el salario del miembro.
-  - Elemento vacío diasLibres: Indica los días libres del miembro.
+  - Elemento sueldo: Representa el salario del miembro. Tipo decimal.
+  - Elemento vacío diasLibres: Indica los días libres del miembro. Opcional.
   - Atributo codigo: Identificador único del miembro, con un patron de una letra seguida por tres numeros. Por default tendrá el valor "unknown".
   - Atributo nombreCompleto: Nombre completo del miembro. Tiene que tener minimo un espacio de nombre y un espacio de apellido (hay que usar patrón)
   - Atributo sexo: Género del miembro, con valores permitidos "M" (Masculino) y "F" (Femenino).
