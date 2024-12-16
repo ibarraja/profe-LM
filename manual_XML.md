@@ -595,8 +595,46 @@ A diferencia que en los tipos simples en el XSD tendremos que especificar la eti
 
 </xsd:schema>
 ```
+#### 6.4.3 - Tipos complejos que se repiten sin tener un orden específico.
+Supongamos que tenemos el siguiente caso:
 
+**XML**:
+```xml
+<padre>
+    <hijo1>Contenido de hijo1</hijo1>
+    <hijo2>Contenido de hijo2</hijo2>
+    <hijo1>Otro contenido de hijo1</hijo1>
+    <hijo1>Otro contenido de hijo1</hijo1>
+    <hijo2>Otro contenido de hijo2</hijo2>
+    <hijo1>Otro contenido de hijo1</hijo1>
+    <hijo2>Otro contenido de hijo2</hijo2>
+    <hijo2>Otro contenido de hijo2</hijo2>
+    <hijo1>Otro contenido de hijo1</hijo1>
+</padre>
+```
+Para resolver este ejercicio con DTD haríamos lo siguiente:
+```xml
+<!DOCTYPE padre[
+    <!ELEMENT padre (hijo1|hijo2)*>
+    <!ELEMENT hijo1 (#PCDATA)>
+    <!ELEMENT hijo2 (#PCDATA)>
+]>
+```
 
+En Schema, podemos establecemos la opción de seleccionar una de las dos (o más) elementos indefinidamente las veces que queramos. Esto se puede hacer haciendo uso de: `<xsd:choice maxOccurs="unbounded">`:
+```xml
+<xsd:element name="padre">
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:choice minOccurss="0" maxOccurs="unbounded">
+                <xsd:element name="hijo1" type="xsd:string"/>
+                <xsd:element name="hijo2" type="xsd:string"/>
+            </xsd:choice>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:element>
+
+```
 
 ### 6.4 - Tipos de restricciones en esquemas XML más comunes
 **1. Restricciones numéricas**
