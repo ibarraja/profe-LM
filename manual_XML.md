@@ -577,15 +577,15 @@ A diferencia que en los tipos simples en el XSD tendremos que especificar la eti
             <xsd:sequence>
                 <!-- Definición del elemento alumno -->
                 <!-- Si queremos poner un limite de alumnos máximos -->
-                <!-- <xsd:element name="alumno" minOccurs="0" maxOccurs="3"> -->
+                <xsd:element name="alumno" minOccurs="0" maxOccurs="1">
                 <!-- Si no quisieramos poner limite de alumnos máximos -->
-                <xsd:element name="alumno" minOccurs="0" maxOccurs="unbounded">
+                <!-- <xsd:element name="alumno" minOccurs="0" maxOccurs="unbounded"> -->
                     <xsd:complexType>
                         <xsd:sequence>
                             <!-- Subelementos de alumno -->
-                            <xsd:element name="name" type="xsd:string"/>
-                            <xsd:element name="firstname" type="xsd:string"/>
-                            <xsd:element name="year" type="xsd:int"/>
+                            <xsd:element name="name" type="xs:string"/>
+                            <xsd:element name="firstname" type="xs:string"/>
+                            <xsd:element name="year" type="xs:int"/>
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>
@@ -700,3 +700,176 @@ Ejemplo: Un tipo que colapsa los espacios en blanco.
     </xsd:restriction>
 </xsd:simpleType>
 ```
+
+### 6.5 - Atributos Schema
+
+En XML, los **atributos** proporcionan información adicional sobre los elementos. En un esquema XSD, se pueden definir atributos para especificar:
+
+- **Nombre** del atributo.
+- **Tipo** de dato que debe contener.
+- **Requisitos** (si es obligatorio, opcional o tiene un valor predeterminado).
+- **Restricciones** aplicables.
+
+#### 6.5.1 - Declaración de atributos en XSD
+
+Los atributos se declaran dentro de un elemento complejo (`<xsd:complexType>`) utilizando la etiqueta `<xsd:attribute>`.
+
+**Sintaxis básica:**  
+```xml
+<xsd:attribute name="nombre_atributo" type="tipo_dato" use="opcionalidad"/>`
+```
+Donde:  
+- **`name`**: Nombre del atributo.  
+- **`type`**: Tipo de dato del atributo (`xsd:string`, `xsd:integer`, etc.).  
+- **`use`**: Define si el atributo es obligatorio (`required`), opcional (`optional`) o tiene un valor predeterminado (`default="valor"`).  
+
+
+#### 6.5.2 - Tipos de atributos
+
+##### 6.5.2.1 - Atributos obligatorios
+Un atributo obligatorio debe aparecer en el elemento correspondiente.
+
+**Ejemplo XML:**  
+`<producto codigo="A123">Teclado</producto>`
+
+**Ejemplo XSD:**
+```xml
+<xsd:element name="producto">
+    <xsd:complexType>
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="codigo" type="xsd:string" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:element>
+```
+
+##### 6.5.2.2 - Atributos opcionales
+Un atributo opcional puede estar presente o no.
+
+**Ejemplo XML:**  
+```xml
+<producto codigo="A123">Teclado</producto>
+<producto>Ratón</producto>
+```
+
+**Ejemplo XSD:**  
+```xml
+<xsd:element name="producto">
+    <xsd:complexType>
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="codigo" type="xsd:string" use="optional"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:element>
+```
+
+
+##### 6.5.2.3 - Atributos con valor predeterminado
+Un atributo puede tener un valor predeterminado que se usará si no está presente en el XML.
+
+**Ejemplo XML:** 
+```xml
+<producto codigo="A123">Teclado</producto>
+<producto>Ratón</producto>
+```
+**Ejemplo XSD:**  
+```xml
+<xsd:element name="producto">
+    <xsd:complexType>
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="codigo" type="xsd:string" default="Desconocido"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:element>
+```
+
+#### 6.5.3 - Restricciones en atributos
+
+Los atributos también pueden tener restricciones como patrones, longitudes o valores específicos (`enumeration`).
+
+##### 6.5.3.1 -  Restricción con patrón (validación de formato)
+El atributo `codigo` debe seguir el formato de tres letras mayúsculas seguidas de tres números.
+
+**Ejemplo XML:** 
+```xml 
+<producto codigo="ABC123">Teclado</producto>
+```
+**Ejemplo XSD:**  
+```xml
+<xsd:element name="producto">
+    <xsd:complexType>
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="codigo">
+                    <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                            <xsd:pattern value="[A-Z]{3}[0-9]{3}"/>
+                        </xsd:restriction>
+                    </xsd:simpleType>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:element>
+```
+
+
+##### 6.5.3.2 - Restricción con valores enumerados
+El atributo `color` solo puede ser "rojo", "azul" o "verde".
+
+**Ejemplo XML:**  
+```xml
+<producto codigo="A123" color="rojo">Teclado</producto>
+```
+
+**Ejemplo XSD:**
+```xml  
+<xsd:element name="producto">
+    <xsd:complexType>
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="color">
+                    <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                            <xsd:enumeration value="rojo"/>
+                            <xsd:enumeration value="azul"/>
+                            <xsd:enumeration value="verde"/>
+                        </xsd:restriction>
+                    </xsd:simpleType>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:element>
+```
+
+### 6.6 - Diferencias entre DTD y XSD
+
+Una comparación entre **DTD** (Document Type Definition) y **XSD** (XML Schema Definition) puede ayudarte a entender sus características, limitaciones y casos de uso:
+
+| **Aspecto**            | **DTD**                                                | **XSD**                                                                 |
+|-------------------------|-------------------------------------------------------|--------------------------------------------------------------------------|
+| **Sintaxis**            | Propia, no usa XML                                    | Escrito en XML                                                          |
+| **Tipos de datos**      | Limitado (`#PCDATA`, `CDATA`, `ID`, etc.)              | Amplio (entero, decimal, booleano, string, etc.)                        |
+| **Espacios de nombres** | No soportado                                          | Soportado mediante `xmlns`                                              |
+| **Modularidad**         | No permite herencia de tipos                          | Permite crear nuevos tipos mediante `restriction` y `extension`         |
+| **Facilidad de uso**    | Más simple y ligero                                   | Más detallado, pero más complejo                                        |
+| **Validación**          | Básica                                                | Soporte para restricciones avanzadas, como patrones y valores mínimos/máximos |
+
+**Cuándo usar DTD o XSD:**
+Usaremos DTD:
+
+- Cuando necesitemos algo simple y ligero.
+- Para documentos XML pequeños y menos complejos.
+- Si no necesitamos manejar tipos de datos avanzados.
+
+Usaremos XSD:
+- Para proyectos complejos que requieren validación avanzada.
+- Cuando necesitemos usar espacios de nombres (xmlns).
+- Si necesitamos heredar tipos y definir estructuras complejas.
