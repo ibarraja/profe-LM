@@ -63,7 +63,6 @@ Archivo XML solucion:
 ```
 
 ### XSD
-
 `<nombre>` es una cadena de texto.
 `<precio>` es un número decimal mayor que 0.
 `<categoria>` debe ser "Electrónica", "Papelería" o "Hogar".
@@ -101,7 +100,6 @@ Archivo XSD solucion:
 ```
 
 ## Ejercicio 5: Equipos de futbol
-### XML
 Crea un archivo XML que tenga:
 - Elemento organizacion: Elemento raíz que contiene una lista de equipos y personal.
 - Elemento equipo:
@@ -124,5 +122,39 @@ Solución archivo XSD:
 ```xml
 
 ```
- 
 
+ ## Ejercicio 6: Transacciones
+Realiza un archivo XML y su correspondiente XSD con los siguientes datos:
+El elemento raíz es "transacciones". Dentro de "transacciones" hay uno o más elementos "transaccion".
+Una "transaccion" puede ser "venta", "compra", o cualquier combinación y secuencia de ellas, pero debe haber al menos una.
+
+Para una venta:
+- Dentro de "venta" hay un elemento "librosVendidos".
+- Dentro de "librosVendidos":
+  - Uno o más elementos "libro". Cada libro tiene los atributos:
+  -   Un atributo de tipo id con nombre codigo con patron "libro###" obligatorio.
+    - Un atributo de tipo cadena con nombre titulo max de 50 caracteres obligatorio.
+    - Un atributo de tipo cadena con nombre autor. Por defecto es "desconocido" 
+  - La cantidad total de libros vendidos, almacenada en un elemento "cantidadTotal". Establecer un maximo de 9.999 y un mínimo de 1.
+  - Puede haber un elemento opcional "devolucion".
+  - Debe haber un elemento "total" con un atributo obligatorio llamado "divisa". "divisa" es un enumerado: "euros", "bitcoin" o "dolares".
+
+Para una compra:
+- Dentro de "compra" hay un elemento "librosComprados".
+- Dentro de "librosComprados":
+  - Uno o más elementos "libro". "libro" cuenta con los atributos:
+    - Un atributo de tipo id con nombre codigo con patron "libro###" obligatorio.
+    - Un atributo de tipo cadena con nombre titulo max de 50 caracteres obligatorio.
+    - Un atributo de tipo cadena con nombre autor. Por defecto es "desconocido".
+  - Un elemento "distribuidor".
+  - Una fecha de compra desglosada en elementos "dia", "mes" y "anio". Usar el tipo date.
+ 
+Solución XML:
+```xml
+
+```
+
+Solución XSD:
+```
+
+```
