@@ -99,7 +99,31 @@ Archivo XSD solucion:
 
 ```
 
-## Ejercicio 5: Equipos de futbol
+## Ejercicio 5: Lista de códigos
+Se nos pide crear un esquema que permita validar un fichero como el siguiente:
+```xml
+<listacodigos>
+  <codigo>AAA2DD</codigo>
+  <codigo>BBB2EE</codigo>
+  <codigo>BBB2EE</codigo>
+</listacodigos>
+```
+En concreto, todo código tiene la estructura siguiente:
+- Primero van tres mayúsculas.
+- Después va exactamente un digito.
+- Por último hay exactamente dos mayúsculas.
+
+Solución XML:
+```xml
+
+```
+
+Solución XSD:
+```xml
+
+```
+
+## Ejercicio 6: Equipos de futbol
 Crea un archivo XML que tenga:
 - Elemento organizacion: Elemento raíz que contiene una lista de equipos y personal.
 - Elemento equipo:
@@ -123,7 +147,7 @@ Solución archivo XSD:
 
 ```
 
- ## Ejercicio 6: Transacciones
+ ## Ejercicio 7: Transacciones
 Realiza un archivo XML y su correspondiente XSD con los siguientes datos:
 El elemento raíz es "transacciones". Dentro de "transacciones" hay uno o más elementos "transaccion".
 Una "transaccion" puede ser "venta", "compra", o cualquier combinación y secuencia de ellas, pero debe haber al menos una.
