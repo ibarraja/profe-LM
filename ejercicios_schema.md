@@ -171,7 +171,7 @@ Para una compra:
     - Un atributo de tipo cadena con nombre titulo max de 50 caracteres obligatorio.
     - Un atributo de tipo cadena con nombre autor. Por defecto es "desconocido".
   - Un elemento "distribuidor".
-  - Una fecha de compra desglosada en elementos "dia", "mes" y "anio". Usar el tipo date.
+  - Una fecha de compra. Usar el tipo date.
  
 Solución XML:
 ```xml
