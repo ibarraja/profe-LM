@@ -889,6 +889,7 @@ El atributo `color` solo puede ser "rojo", "azul" o "verde".
 Si tenemos un elemento que tenga un atributo y contiene otros elementos, debemos usar un `<xsd:complexType>` con un `<xsd:sequence>`, `<xsd:choice>`, o `<xsd:all>` (según cómo desees estructurar los elementos hijos) y declarar el atributo dentro del tipo complejo usando `<xsd:attribute>`.
 
 **Ejemplo**
+
 Supongamos que tienes un elemento llamado `producto` que tiene un atributo `codigo` y contiene otros elementos como `nombre` y `precio`:
 ```xml
 <producto codigo="A123">
