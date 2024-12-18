@@ -828,7 +828,6 @@ Un atributo puede tener un valor predeterminado que se usará si no está presen
 ```
 
 #### 6.5.3 - Restricciones en atributos
-
 Los atributos también pueden tener restricciones como patrones, longitudes o valores específicos (`enumeration`).
 
 ##### 6.5.3.1 -  Restricción con patrón (validación de formato)
@@ -885,6 +884,32 @@ El atributo `color` solo puede ser "rojo", "azul" o "verde".
         </xsd:simpleContent>
     </xsd:complexType>
 </xsd:element>
+```
+#### 6.5.4 - Atributos en elementos que contienen otros elementos
+Si tenemos un elemento que tenga un atributo y contiene otros elementos, debemos usar un `<xsd:complexType>` con un `<xsd:sequence>`, `<xsd:choice>`, o `<xsd:all>` (según cómo desees estructurar los elementos hijos) y declarar el atributo dentro del tipo complejo usando `<xsd:attribute>`.
+
+**Ejemplo**
+Supongamos que tienes un elemento llamado `producto` que tiene un atributo `codigo` y contiene otros elementos como `nombre` y `precio`:
+```xml
+<producto codigo="A123">
+    <nombre>Manzana</nombre>
+    <precio>1.50</precio>
+</producto>
+```
+
+Su XSD tendria que ser del siguiente modo:
+
+```xml
+<xsd:element name="producto">
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="nombre" type="xsd:string"/>
+            <xsd:element name="precio" type="xsd:decimal"/>
+        </xsd:sequence>
+        <xsd:attribute name="codigo" type="xsd:string" use="required"/>
+    </xsd:complexType>
+</xsd:element>
+
 ```
 
 ### 6.6 - Diferencias entre DTD y XSD
