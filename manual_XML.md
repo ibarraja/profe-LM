@@ -595,6 +595,64 @@ A diferencia que en los tipos simples en el XSD tendremos que especificar la eti
 
 </xsd:schema>
 ```
+#### 6.3.3 - Elementos que contienen elementos:
+
+En muchas ocasiones vamos a tener situaciones donde un elemento va a contener dentro del mismo otros elementos internos. Esto nos permite modelar estructuras jerárquicas y organizadas en XML.
+
+Por ejemplo, consideremos un caso donde tenemos una organización que contiene tanto equipos como personal:
+
+```xml
+<organizacion>
+    <equipo>
+        Equipo 1
+    </equipo>
+    <personal>
+        Persona 1
+    </personal>
+</organizacion>
+```
+
+En este caso, el elemento `<organizacion>` agrupa los elementos `<equipo>` y `<personal>` como hijos. Para validar esta estructura con un esquema XSD, podemos utilizar un modelo de tipo complejo que incluya una elección (`choice`).
+
+#### Definición del esquema XSD:
+
+```xml
+<xsd:element name="organizacion">
+  <xsd:complexType>
+    <xsd:choice maxOccurs="unbounded">
+      <xsd:element name="equipo" type="xsd:string"/>
+      <xsd:element name="personal" type="xsd:string"/>
+    </xsd:choice>
+  </xsd:complexType>
+</xsd:element>
+```
+
+#### Explicación del esquema:
+1. **Elemento principal:**
+   - `<organizacion>` es el elemento raíz que puede contener múltiples hijos.
+
+2. **Modelo de elección (`choice`):**
+   - Permite que dentro de `<organizacion>` se incluyan elementos `<equipo>` o `<personal>` en cualquier orden y de manera repetitiva.
+   - El atributo `maxOccurs="unbounded"` permite repetir cualquiera de estos elementos tantas veces como sea necesario.
+
+3. **Elementos hijos:**
+   - `<equipo>` y `<personal>` están definidos como elementos que contienen texto (tipo `xsd:string`).
+
+#### Ejemplos válidos:
+```xml
+<organizacion>
+    <equipo>Equipo A</equipo>
+    <personal>Persona 1</personal>
+    <personal>Persona 2</personal>
+    <equipo>Equipo B</equipo>
+</organizacion>
+```
+
+#### Consideraciones importantes:
+- El uso de `<xsd:choice>` es útil cuando el orden o la combinación de elementos hijos no está restringida.
+- Se pueden agregar restricciones adicionales, como atributos o tipos complejos, si los elementos necesitan más estructura o validación.
+
+Este modelo proporciona flexibilidad para manejar jerarquías en XML sin imponer un orden fijo entre los elementos hijos.
 
 
 
