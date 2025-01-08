@@ -595,46 +595,8 @@ A diferencia que en los tipos simples en el XSD tendremos que especificar la eti
 
 </xsd:schema>
 ```
-#### 6.4.3 - Tipos complejos que se repiten sin tener un orden específico.
-Supongamos que tenemos el siguiente caso:
 
-**XML**:
-```xml
-<padre>
-    <hijo1>Contenido de hijo1</hijo1>
-    <hijo2>Contenido de hijo2</hijo2>
-    <hijo1>Otro contenido de hijo1</hijo1>
-    <hijo1>Otro contenido de hijo1</hijo1>
-    <hijo2>Otro contenido de hijo2</hijo2>
-    <hijo1>Otro contenido de hijo1</hijo1>
-    <hijo2>Otro contenido de hijo2</hijo2>
-    <hijo2>Otro contenido de hijo2</hijo2>
-    <hijo1>Otro contenido de hijo1</hijo1>
-</padre>
-```
-Para resolver este ejercicio con DTD haríamos lo siguiente:
-```xml
-<!DOCTYPE padre[
-    <!ELEMENT padre (hijo1|hijo2)*>
-    <!ELEMENT hijo1 (#PCDATA)>
-    <!ELEMENT hijo2 (#PCDATA)>
-]>
-```
 
-En Schema, podemos establecemos la opción de seleccionar una de las dos (o más) elementos indefinidamente las veces que queramos. Esto se puede hacer haciendo uso de: `<xsd:choice maxOccurs="unbounded">`:
-```xml
-<xsd:element name="padre">
-    <xsd:complexType>
-        <xsd:sequence>
-            <xsd:choice minOccurs="0" maxOccurs="unbounded">
-                <xsd:element name="hijo1" type="xsd:string"/>
-                <xsd:element name="hijo2" type="xsd:string"/>
-            </xsd:choice>
-        </xsd:sequence>
-    </xsd:complexType>
-</xsd:element>
-
-```
 
 ### 6.4 - Tipos de restricciones en esquemas XML más comunes
 **1. Restricciones numéricas**
@@ -828,6 +790,7 @@ Un atributo puede tener un valor predeterminado que se usará si no está presen
 ```
 
 #### 6.5.3 - Restricciones en atributos
+
 Los atributos también pueden tener restricciones como patrones, longitudes o valores específicos (`enumeration`).
 
 ##### 6.5.3.1 -  Restricción con patrón (validación de formato)
@@ -885,33 +848,6 @@ El atributo `color` solo puede ser "rojo", "azul" o "verde".
     </xsd:complexType>
 </xsd:element>
 ```
-#### 6.5.4 - Atributos en elementos que contienen otros elementos
-Si tenemos un elemento que tenga un atributo y contiene otros elementos, debemos usar un `<xsd:complexType>` con un `<xsd:sequence>`, `<xsd:choice>`, o `<xsd:all>` (según cómo desees estructurar los elementos hijos) y declarar el atributo dentro del tipo complejo usando `<xsd:attribute>`.
-
-**Ejemplo**
-
-Supongamos que tienes un elemento llamado `producto` que tiene un atributo `codigo` y contiene otros elementos como `nombre` y `precio`:
-```xml
-<producto codigo="A123">
-    <nombre>Manzana</nombre>
-    <precio>1.50</precio>
-</producto>
-```
-
-Su XSD tendria que ser del siguiente modo:
-
-```xml
-<xsd:element name="producto">
-    <xsd:complexType>
-        <xsd:sequence>
-            <xsd:element name="nombre" type="xsd:string"/>
-            <xsd:element name="precio" type="xsd:decimal"/>
-        </xsd:sequence>
-        <xsd:attribute name="codigo" type="xsd:string" use="required"/>
-    </xsd:complexType>
-</xsd:element>
-
-```
 
 ### 6.6 - Diferencias entre DTD y XSD
 
@@ -937,3 +873,155 @@ Usaremos XSD:
 - Para proyectos complejos que requieren validación avanzada.
 - Cuando necesitemos usar espacios de nombres (xmlns).
 - Si necesitamos heredar tipos y definir estructuras complejas.
+
+### 6.7 - Claves y Claves Foráneas en XSD (key y keyref)
+
+En **XML Schema Definition (XSD)**, las claves (**key**) y claves foráneas (**keyref**) permiten definir restricciones de integridad referencial similares a las claves primarias y claves foráneas en bases de datos relacionales. Estas restricciones aseguran la unicidad de valores y relaciones correctas entre elementos dentro de un documento XML.
+
+#### 6.7.1 - Claves (`key`)
+
+Las claves se utilizan para garantizar que un valor sea **único** dentro de un conjunto de elementos. Actúan como **claves primarias**.
+
+##### Sintaxis de clave primaria (`key`)
+```xml
+<xsd:key name="nombreClave">
+    <xsd:selector xpath="rutaElementos"/>
+    <xsd:field xpath="rutaCampo"/>
+</xsd:key>
+```
+
+##### Ejemplo
+```xml
+<datos>
+    <productos>
+        <producto codigo="P001">Teclado</producto>
+        <producto codigo="P002">Ratón</producto>
+        <producto codigo="P003">Monitor</producto>
+    </productos>
+</datos>
+```
+
+##### Esquema XSD para clave primaria
+```xml
+<xsd:element name="datos">
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element name="productos">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="producto" maxOccurs="unbounded">
+                            <xsd:complexType>
+                                <xsd:simpleContent>
+                                    <xsd:extension base="xsd:string">
+                                        <xsd:attribute name="codigo" type="xsd:string" use="required"/>
+                                    </xsd:extension>
+                                </xsd:simpleContent>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+
+                <!-- Definir clave primaria -->
+                <xsd:key name="codigoUnico">
+                    <xsd:selector xpath="producto"/>
+                    <xsd:field xpath="@codigo"/>
+                </xsd:key>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:element>
+```
+
+##### Explicación
+1. **`selector`** selecciona todos los elementos `<producto>` dentro del XML.
+2. **`field`** especifica que el atributo `codigo` debe ser único dentro del conjunto.
+3. El valor de `codigo` en `<producto>` debe ser distinto para cada instancia.
+
+---
+
+#### 6.7.2 - Claves Foráneas (`keyref`)
+
+Las claves foráneas garantizan que un valor en un elemento coincida con un valor previamente definido en otra clave primaria. Actúan como **claves foráneas** en bases de datos.
+
+##### Sintaxis de clave foránea (`keyref`)
+```xml
+<xsd:keyref name="nombreClaveForanea" refer="nombreClave">
+    <xsd:selector xpath="rutaElementos"/>
+    <xsd:field xpath="rutaCampo"/>
+</xsd:keyref>
+```
+
+##### Ejemplo XML con clave foránea
+```xml
+<datos>
+    <productos>
+        <producto codigo="P001">Teclado</producto>
+        <producto codigo="P002">Ratón</producto>
+        <producto codigo="P003">Monitor</producto>
+    </productos>
+    
+    <pedidos>
+        <pedido codigoProducto="P001"/>
+        <pedido codigoProducto="P002"/>
+        <pedido codigoProducto="P004"/> <!-- Error: No existe este código -->
+    </pedidos>
+</datos>
+```
+
+##### Esquema XSD para clave foránea
+```xml
+<xsd:element name="datos">
+    <xsd:complexType>
+        <xsd:sequence>
+            <!-- Productos -->
+            <xsd:element name="productos">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="producto" maxOccurs="unbounded">
+                            <xsd:complexType>
+                                <xsd:simpleContent>
+                                    <xsd:extension base="xsd:string">
+                                        <xsd:attribute name="codigo" type="xsd:string" use="required"/>
+                                    </xsd:extension>
+                                </xsd:simpleContent>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+
+                <!-- Clave primaria -->
+                <xsd:key name="codigoUnico">
+                    <xsd:selector xpath="producto"/>
+                    <xsd:field xpath="@codigo"/>
+                </xsd:key>
+            </xsd:element>
+
+            <!-- Pedidos -->
+            <xsd:element name="pedidos">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="pedido" maxOccurs="unbounded">
+                            <xsd:complexType>
+                                <xsd:attribute name="codigoProducto" type="xsd:string" use="required"/>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+
+                <!-- Clave foránea -->
+                <xsd:keyref name="relacionCodigo" refer="codigoUnico">
+                    <xsd:selector xpath="pedido"/>
+                    <xsd:field xpath="@codigoProducto"/>
+                </xsd:keyref>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:element>
+```
+
+##### Explicación
+1. La clave foránea `relacionCodigo` asegura que todos los `codigoProducto` en los elementos `<pedido>` deben existir previamente como claves primarias (`codigoUnico`) en la lista de productos.
+2. Si el valor `codigoProducto` no existe en productos, se generará un **error de validación**.
+
+
+
