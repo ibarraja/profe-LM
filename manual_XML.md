@@ -905,16 +905,20 @@ Un atributo puede tener un valor predeterminado que se usará si no está presen
 
 #### 6.5.3 - Restricciones en atributos
 
-Los atributos también pueden tener restricciones como patrones, longitudes o valores específicos (`enumeration`).
+En XML Schema Definition (XSD), es posible aplicar restricciones a los atributos para garantizar que los valores cumplan con ciertos criterios predefinidos. Estas restricciones permiten validar datos como patrones específicos, longitudes fijas o rangos de valores aceptables, lo que asegura la coherencia e integridad de los datos dentro del documento XML.
 
-##### 6.5.3.1 -  Restricción con patrón (validación de formato)
-El atributo `codigo` debe seguir el formato de tres letras mayúsculas seguidas de tres números.
+A continuación, se describen algunos ejemplos comunes de restricciones en atributos:
 
-**Ejemplo XML:** 
-```xml 
+##### 6.5.3.1 - Restricciones con Patrón (Validación de Formato)
+
+Un patrón (pattern) define una expresión regular que restringe el formato permitido para el valor de un atributo. Por ejemplo, supongamos que queremos que el atributo `codigo` siga un formato específico: tres letras mayúsculas seguidas de tres dígitos numéricos.
+
+**Ejemplo XML válido:**
+```xml
 <producto codigo="ABC123">Teclado</producto>
 ```
-**Ejemplo XSD:**  
+
+**Definición en XSD:**
 ```xml
 <xsd:element name="producto">
     <xsd:complexType>
@@ -933,17 +937,24 @@ El atributo `codigo` debe seguir el formato de tres letras mayúsculas seguidas 
 </xsd:element>
 ```
 
+**Explicación:**
+1. La etiqueta `<xsd:pattern>` especifica una expresión regular como restricción.
+2. El patrón `[A-Z]{3}[0-9]{3}` obliga a que el valor contenga exactamente 3 letras mayúsculas seguidas de 3 dígitos.
+3. El atributo `codigo` debe cumplir esta restricción o el documento XML será considerado inválido.
 
-##### 6.5.3.2 - Restricción con valores enumerados
-El atributo `color` solo puede ser "rojo", "azul" o "verde".
+---
 
-**Ejemplo XML:**  
+##### 6.5.3.2 - Restricción con Valores Enumerados
+
+En algunos casos, se desea restringir un atributo a un conjunto fijo de valores posibles. Esto se logra mediante la restricción `enumeration`. Por ejemplo, supongamos que el atributo `color` solo puede tomar los valores "rojo", "azul" o "verde".
+
+**Ejemplo XML válido:**
 ```xml
 <producto codigo="A123" color="rojo">Teclado</producto>
 ```
 
-**Ejemplo XSD:**
-```xml  
+**Definición en XSD:**
+```xml
 <xsd:element name="producto">
     <xsd:complexType>
         <xsd:simpleContent>
@@ -962,6 +973,37 @@ El atributo `color` solo puede ser "rojo", "azul" o "verde".
     </xsd:complexType>
 </xsd:element>
 ```
+
+**Explicación:**
+1. La etiqueta `<xsd:enumeration>` enumera los valores permitidos para el atributo `color`.
+2. Solo se aceptarán valores exactos que coincidan con uno de los especificados: "rojo", "azul" o "verde".
+3. Si se utiliza cualquier otro valor en el atributo `color`, el documento XML será inválido.
+
+---
+
+##### 6.5.3.3 - ¿Por qué se usa `xsd:extension`?
+
+La etiqueta `<xsd:extension>` se utiliza para extender un tipo base existente agregando atributos adicionales o elementos opcionales sin redefinir el tipo base por completo.
+
+En los ejemplos anteriores, se utiliza `xsd:extension` con `base="xsd:string"` para permitir que el elemento contenga un valor de texto (contenido simple) mientras se añaden atributos adicionales como `codigo` y `color`. Esto permite reutilizar las propiedades del tipo base (cadena de texto en este caso) y al mismo tiempo agregar restricciones específicas mediante atributos.
+
+##### 6.5.3.4 - ¿Qué es el atributo `base`?
+
+El atributo `base` en una extensión o restricción define el tipo de datos del que se parte para construir el nuevo tipo. En los ejemplos anteriores, se especifica `base="xsd:string"`, lo que significa que el contenido principal del elemento debe ser de tipo cadena de texto.
+
+**Funciones del atributo `base`:**
+1. **Define el tipo de datos inicial:** Sirve como plantilla para heredar propiedades predefinidas (por ejemplo, texto, números o fechas).
+2. **Facilita la validación de datos:** El tipo base proporciona una validación fundamental, como verificar que el contenido sea una cadena antes de aplicar restricciones adicionales.
+3. **Permite reutilizar definiciones existentes:** Se pueden aplicar restricciones adicionales sobre un tipo base estándar en lugar de crear un tipo personalizado desde cero.
+
+**Ejemplo:**
+```xml
+<xsd:restriction base="xsd:string">
+    <xsd:pattern value="[A-Z]{3}[0-9]{3}"/>
+</xsd:restriction>
+```
+Aquí, el tipo base `xsd:string` garantiza que el valor es texto, y luego la restricción añade una validación específica mediante un patrón.
+
 
 ### 6.6 - Diferencias entre DTD y XSD
 
