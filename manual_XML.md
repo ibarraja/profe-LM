@@ -654,7 +654,42 @@ En este caso, el elemento `<organizacion>` agrupa los elementos `<equipo>` y `<p
 
 Este modelo proporciona flexibilidad para manejar jerarquías en XML sin imponer un orden fijo entre los elementos hijos.
 
+#### Elementos que se repiten y otros que no
+También se puede dar el caso de contar con elementos hijos que se repiten y otros que no se repiten. Ejemplo:
 
+```xml
+<organizacion>
+    <equipo>Equipo A</equipo>
+    <personal>Persona 1</personal>
+    <personal>Persona 2</personal>
+    <personal>Persona 3</personal>
+    ...
+    <personal>Persona 568</personal>
+</organizacion>
+``` 
+Cuando se de este caso obviamente el uso de `<xsd:choice>` no será necesario. Si no que habra que jugar con los `maxOccurs` dentro del elemento que se repita:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <!-- Elemento raíz -->
+  <xsd:element name="organizacion">
+    <xsd:complexType>
+      <xsd:sequence>
+        <!-- Elemento equipo que aparece solo una vez -->
+        <xsd:element name="equipo">
+        </xsd:element>
+        
+        <!-- Elemento personal que puede repetirse infinitas veces -->
+        <xsd:element name="personal" type="xsd:string" maxOccurs="unbounded"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+</xsd:schema>
+
+```
 
 ### 6.4 - Tipos de restricciones en esquemas XML más comunes
 **1. Restricciones numéricas**
