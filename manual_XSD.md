@@ -336,7 +336,7 @@ En XML Schema Definition (XSD), se pueden crear nuevos tipos de datos basados en
    ```
 
 ### 2.3 - Tipos de Restricciones en XSD
-⚠️⚠️Cuando hablamos de **restricciones en XSD** la información que estamos restringiendo son **los datos que hay dentro de los elementos.** ⚠️⚠️
+⚠️⚠️Cuando hablamos de **restricciones en XSD** la información que estamos restringiendo son **los datos que hay dentro de los elementos.**
 
 Esto hasta ahora con los DTDs no se podía hacer. Y es precisamente por este motivo por el cúal XSD es tan importante.
 
