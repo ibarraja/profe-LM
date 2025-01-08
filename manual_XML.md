@@ -596,6 +596,7 @@ A diferencia que en los tipos simples en el XSD tendremos que especificar la eti
 </xsd:schema>
 ```
 #### 6.3.3 - Elementos que contienen elementos:
+##### 6.3.3.1 - Elementos que se repiten sin orden definido (`xsd:choice`)
 
 En muchas ocasiones vamos a tener situaciones donde un elemento va a contener dentro del mismo otros elementos internos. Esto nos permite modelar estructuras jerárquicas y organizadas en XML.
 
@@ -614,7 +615,7 @@ Por ejemplo, consideremos un caso donde tenemos una organización que contiene t
 
 En este caso, el elemento `<organizacion>` agrupa los elementos `<equipo>` y `<personal>` como hijos. Para validar esta estructura con un esquema XSD, podemos utilizar un modelo de tipo complejo que incluya una elección (`choice`).
 
-#### Definición del esquema XSD:
+**Definición del esquema XSD:**
 
 ```xml
 <xsd:element name="organizacion">
@@ -627,7 +628,7 @@ En este caso, el elemento `<organizacion>` agrupa los elementos `<equipo>` y `<p
 </xsd:element>
 ```
 
-#### Explicación del esquema:
+**Explicación del esquema:**
 1. **Elemento principal:**
    - `<organizacion>` es el elemento raíz que puede contener múltiples hijos.
 
@@ -638,7 +639,7 @@ En este caso, el elemento `<organizacion>` agrupa los elementos `<equipo>` y `<p
 3. **Elementos hijos:**
    - `<equipo>` y `<personal>` están definidos como elementos que contienen texto (tipo `xsd:string`).
 
-#### Ejemplos válidos:
+**Ejemplos válidos:**
 ```xml
 <organizacion>
     <equipo>Equipo A</equipo>
@@ -648,15 +649,17 @@ En este caso, el elemento `<organizacion>` agrupa los elementos `<equipo>` y `<p
 </organizacion>
 ```
 
-#### Consideraciones importantes:
+**Consideraciones importantes:**
 - El uso de `<xsd:choice>` es útil cuando el orden o la combinación de elementos hijos no está restringida.
 - Se pueden agregar restricciones adicionales, como atributos o tipos complejos, si los elementos necesitan más estructura o validación.
 
 Este modelo proporciona flexibilidad para manejar jerarquías en XML sin imponer un orden fijo entre los elementos hijos.
 
-#### Elementos que se repiten y otros que no
-También se puede dar el caso de contar con elementos hijos que se repiten y otros que no se repiten. Ejemplo:
+##### 6.3.3.2 - Elementos con hijos que se repiten y otros que no
 
+En algunos casos, es posible que necesitemos modelar estructuras XML en las que ciertos elementos hijos se repitan un número indefinido de veces, mientras que otros solo aparezcan una vez. 
+
+**Ejemplo:**
 ```xml
 <organizacion>
     <equipo>Equipo A</equipo>
@@ -666,8 +669,15 @@ También se puede dar el caso de contar con elementos hijos que se repiten y otr
     ...
     <personal>Persona 568</personal>
 </organizacion>
-``` 
-Cuando se de este caso obviamente el uso de `<xsd:choice>` no será necesario. Si no que habra que jugar con los `maxOccurs` dentro del elemento que se repita:
+```
+En este ejemplo:
+- El elemento `<equipo>` aparece una sola vez.
+- El elemento `<personal>` puede repetirse un número ilimitado de veces.
+
+**Definición en XSD:**
+En este tipo de estructuras, no es necesario utilizar `<xsd:choice>` ya que no se requiere alternar entre elementos opcionales. En su lugar, podemos controlar la repetición de los elementos usando el atributo `maxOccurs`. 
+
+A continuación, se muestra el esquema XSD correspondiente:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -678,17 +688,28 @@ Cuando se de este caso obviamente el uso de `<xsd:choice>` no será necesario. S
     <xsd:complexType>
       <xsd:sequence>
         <!-- Elemento equipo que aparece solo una vez -->
-        <xsd:element name="equipo">
-        </xsd:element>
+        <xsd:element name="equipo" type="xsd:string"/>
         
-        <!-- Elemento personal que puede repetirse infinitas veces -->
+        <!-- Elemento personal que puede repetirse un número indefinido de veces -->
         <xsd:element name="personal" type="xsd:string" maxOccurs="unbounded"/>
       </xsd:sequence>
     </xsd:complexType>
   </xsd:element>
 
 </xsd:schema>
+```
 
+**Explicación del esquema:**
+1. **Elemento raíz:**
+   - `organizacion` actúa como contenedor principal.
+
+2. **Elemento único (`equipo`):**
+   - Se define sin el atributo `maxOccurs`, ya que por defecto puede aparecer solo una vez.
+   - Contiene un valor de texto (`xsd:string`).
+
+3. **Elemento repetitivo (`personal`):**
+   - Se define con `maxOccurs="unbounded"`, permitiendo que aparezca un número ilimitado de veces.
+   - Su contenido también es de tipo texto (`xsd:string`).
 ```
 
 ### 6.4 - Tipos de restricciones en esquemas XML más comunes
