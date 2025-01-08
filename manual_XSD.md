@@ -568,9 +568,9 @@ Un atributo puede tener un valor predeterminado que se usará si no está presen
 
 ### 3.3 - Como se forman los atributos en el XSD
 
-### 3.3.1 - Cuando el elemento no tiene elementos hijos
+#### 3.3.1 - Cuando el elemento no tiene elementos hijos
 
-#### 3.3.1.1 - El elemento XML es EMPTY:
+##### 3.3.1.1 - El elemento XML es EMPTY:
 ```xml
 <proucto codigo="A123" descripcion="Teclado ergonómico"/>
 ```
@@ -586,7 +586,7 @@ El XSD vendría a representarse del siguiente modo:
 </xsd:element>
 ```
 
-#### 3.3.1.2 - El elemento NO es EMPTY
+##### 3.3.1.2 - El elemento NO es EMPTY
 ```xml
 <proucto codigo="A123" descripcion="Teclado ergonómico">Corsair K55</producto>
 ```
@@ -613,7 +613,7 @@ El XSD vendría a representarse del siguiente modo:
 
 ```
 
-### 3.3.2 - Cuando el elemento si tiene elementos hijos
+#### 3.3.2 - Cuando el elemento si tiene elementos hijos
 
 Dado el siguiente archivo XML:
 ```xml
