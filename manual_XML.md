@@ -942,7 +942,6 @@ Un patrón (pattern) define una expresión regular que restringe el formato perm
 2. El patrón `[A-Z]{3}[0-9]{3}` obliga a que el valor contenga exactamente 3 letras mayúsculas seguidas de 3 dígitos.
 3. El atributo `codigo` debe cumplir esta restricción o el documento XML será considerado inválido.
 
----
 
 ##### 6.5.3.2 - Restricción con Valores Enumerados
 
