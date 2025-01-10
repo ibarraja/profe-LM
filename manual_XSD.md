@@ -626,13 +626,18 @@ Otro ejemplo:
 **XSD:**
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-    <!-- Declaración del elemento tipoPrecio -->
+    <!-- Declaración del elemento tipoPrecio con todas las restricciones -->
     <xs:element name="tipoPrecio">
         <xs:complexType>
             <xs:simpleContent>
-                <xs:extension base="precioType">
+                <xs:extension base="xs:decimal">
+                    <!-- Restricción del contenido del elemento -->
+                    <xs:restriction base="xs:decimal">
+                        <xs:minInclusive value="0"/>
+                    </xs:restriction>
                     <!-- Restricción del atributo moneda -->
                     <xs:attribute name="moneda" use="required">
                         <xs:simpleType>
@@ -646,13 +651,6 @@ Otro ejemplo:
             </xs:simpleContent>
         </xs:complexType>
     </xs:element>
-
-    <!-- Tipo precioType para definir el contenido del elemento -->
-    <xs:simpleType name="precioType">
-        <xs:restriction base="xs:decimal">
-            <xs:minInclusive value="0"/>
-        </xs:restriction>
-    </xs:simpleType>
 
 </xs:schema>
 ```
