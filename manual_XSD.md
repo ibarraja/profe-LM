@@ -618,26 +618,23 @@ El XSD vendría a representarse del siguiente modo:
 </xsd:element>
 
 ```
-Otro ejemplo:
+Otro caso:
+Tenemos un elemento el cual tiene restricciones tanto en el atributo como en los datos del elemento:
 **XML:** El elemento tipo moneda no puede ser menor de 0, el atributo moneda es una lista, puede ser `€` o `$`:
 ```xml
 <tipoPrecio moneda="€">1500.50</tipoPrecio>
 ```
+Para realizar el XSD tendremos que definir un **simpleContent Global** con el nombre del tipo que especificaremos en el `xsd:extension` del elemento en cuestion:
 **XSD:**
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-    <!-- Declaración del elemento tipoPrecio con todas las restricciones -->
+    <!-- Declaración del elemento tipoPrecio -->
     <xs:element name="tipoPrecio">
         <xs:complexType>
             <xs:simpleContent>
-                <xs:extension base="xs:decimal">
-                    <!-- Restricción del contenido del elemento -->
-                    <xs:restriction base="xs:decimal">
-                        <xs:minInclusive value="0"/>
-                    </xs:restriction>
+                <xs:extension base="precioType">
                     <!-- Restricción del atributo moneda -->
                     <xs:attribute name="moneda" use="required">
                         <xs:simpleType>
@@ -652,7 +649,15 @@ Otro ejemplo:
         </xs:complexType>
     </xs:element>
 
+    <!-- Tipo precioType GLOBAL para definir el contenido del elemento -->
+    <xs:simpleType name="precioType">
+        <xs:restriction base="xs:decimal">
+            <xs:minInclusive value="0"/>
+        </xs:restriction>
+    </xs:simpleType>
+
 </xs:schema>
+
 ```
 
 #### 3.3.2 - Cuando el elemento si tiene elementos hijos
