@@ -598,6 +598,12 @@ El XSD vendría a representarse del siguiente modo:
         
         <xsd:simpleContent> <!-- Aquí se especifica que producto tiene información y ... -->
             <xsd:extension base="xsd:string"><!-- ... es una cadena de texto -->
+
+                <!-- Posibles restricciones del elemento
+                <xsd:restriction basse="xsd:string">
+                     
+                </restriction>
+                -->
                 
                 <!-- Atributo codigo -->
                 <xsd:attribute name="codigo" type="xsd:string" use="required"/>
