@@ -618,6 +618,44 @@ El XSD vendría a representarse del siguiente modo:
 </xsd:element>
 
 ```
+Otro ejemplo:
+**XML:** El elemento tipo moneda no puede ser menor de 0, el atributo moneda es una lista, puede ser `€` o `$`:
+```xml
+<tipoPrecio moneda="€">1500.50</tipoPrecio>
+```
+**XSD:**
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Declaración del elemento tipoPrecio -->
+    <xs:element name="tipoPrecio">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="precioType">
+                    <!-- Restricción del atributo moneda -->
+                    <xs:attribute name="moneda" use="required">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="€"/>
+                                <xs:enumeration value="$"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Tipo precioType para definir el contenido del elemento -->
+    <xs:simpleType name="precioType">
+        <xs:restriction base="xs:decimal">
+            <xs:minInclusive value="0"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>
+```
 
 #### 3.3.2 - Cuando el elemento si tiene elementos hijos
 
