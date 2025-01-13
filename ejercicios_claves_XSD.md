@@ -68,3 +68,42 @@ Define una clave foránea para el atributo empleado en los elementos `<proyecto>
 Define múltiples claves primarias (`xsd:key`) para los departamentos y empleados.
 Define múltiples claves foráneas (`xsd:keyref`) para validar las relaciones entre departamentos y empleados, y empleados y proyectos.
 
+## Ejercicio 4: Validación Compleja con Claves, Claves Foráneas y Dependencias Jerárquicas
+Diseña un esquema XSD para una estructura de datos que represente una universidad. A continuación, se describen los elementos y relaciones que debe incluir el XML:
+
+### Información del XML a crear
+**Facultades:**
+- Cada facultad tiene un código único y un nombre.
+- El código es obligatorio y sirve como clave primaria.
+
+**Asignaturas:**
+- Cada asignatura tiene un código único, un nombre y un atributo que indica la facultad a la que pertenece.
+- El atributo de la facultad debe ser una clave foránea que haga referencia al código de las facultades existentes.
+
+**Estudiantes:**
+- Cada estudiante tiene un identificador único y un nombre.
+- El identificador es obligatorio y actúa como clave primaria.
+
+**Matrículas:**
+- Cada matrícula debe incluir dos atributos obligatorios: el identificador del estudiante y el código de la asignatura.
+- El identificador del estudiante debe ser una clave foránea que haga referencia a los estudiantes existentes.
+- El código de la asignatura debe ser una clave foránea que haga referencia a las asignaturas existentes.
+- No puede haber más de una matrícula para el mismo estudiante en la misma asignatura durante un semestre.
+
+### Reglas adicionales
+- El XML debe contener al menos dos facultades, tres asignaturas (repartidas entre las facultades) y tres estudiantes.
+- Crea al menos cinco matrículas, donde una de ellas sea inválida porque:
+    - Hace referencia a un estudiante inexistente.
+    - O hace referencia a una asignatura inexistente.
+    - O intenta duplicar la matrícula de un estudiante en una asignatura para el mismo semestre.
+
+### Ejemplo de relaciones para el XML
+- Una facultad llamada "Ingeniería" con código "F001".
+- Una facultad llamada "Ciencias" con código "F002".
+- Una asignatura de "Programación" que pertenece a "Ingeniería".
+- Una asignatura de "Matemáticas" que pertenece a "Ciencias".
+- Tres estudiantes: "Pedro", "Laura" y "Ana".
+- Matrículas:
+    - Pedro está matriculado en "Programación".
+    - Laura está matriculada en "Matemáticas".
+    - Una matrícula inválida para un estudiante no existente.
