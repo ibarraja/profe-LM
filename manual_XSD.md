@@ -872,7 +872,7 @@ Se puede restringir la longitud de un atributo.
 </xsd:attribute>
 ```
 
-## 5 - Claves y Claves Foráneas en XSD (key y keyref) - POR DESARROLLAR
+## 5 - Claves y Claves Foráneas en XSD (key y keyref)
 
 En **XML Schema Definition (XSD)**, las claves (**key**) y claves foráneas (**keyref**) permiten definir restricciones de integridad referencial similares a las claves primarias y claves foráneas en bases de datos relacionales. Estas restricciones aseguran la unicidad de valores y relaciones correctas entre elementos dentro de un documento XML.
 
