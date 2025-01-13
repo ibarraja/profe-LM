@@ -967,53 +967,56 @@ Las claves foráneas garantizan que un valor en un elemento coincida con un valo
 
 ##### Esquema XSD para clave foránea
 ```xml
-<xsd:element name="datos">
-    <xsd:complexType>
-        <xsd:sequence>
-            <!-- Productos -->
-            <xsd:element name="productos">
-                <xsd:complexType>
-                    <xsd:sequence>
-                        <xsd:element name="producto" maxOccurs="unbounded">
-                            <xsd:complexType>
-                                <xsd:simpleContent>
-                                    <xsd:extension base="xsd:string">
-                                        <xsd:attribute name="codigo" type="xsd:string" use="required"/>
-                                    </xsd:extension>
-                                </xsd:simpleContent>
-                            </xsd:complexType>
-                        </xsd:element>
-                    </xsd:sequence>
-                </xsd:complexType>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="datos">
+        <xsd:complexType>
+            <xsd:sequence>
+                <!-- Productos -->
+                <xsd:element name="productos">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="producto" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:simpleContent>
+                                        <xsd:extension base="xsd:string">
+                                            <xsd:attribute name="codigo" type="xsd:string" use="required"/>
+                                        </xsd:extension>
+                                    </xsd:simpleContent>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
 
-                <!-- Clave primaria -->
-                <xsd:key name="codigoUnico">
-                    <xsd:selector xpath="producto"/>
-                    <xsd:field xpath="@codigo"/>
-                </xsd:key>
-            </xsd:element>
+                <!-- Pedidos -->
+                <xsd:element name="pedidos">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="pedido" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:attribute name="codigoProducto" type="xsd:string" use="required"/>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
 
-            <!-- Pedidos -->
-            <xsd:element name="pedidos">
-                <xsd:complexType>
-                    <xsd:sequence>
-                        <xsd:element name="pedido" maxOccurs="unbounded">
-                            <xsd:complexType>
-                                <xsd:attribute name="codigoProducto" type="xsd:string" use="required"/>
-                            </xsd:complexType>
-                        </xsd:element>
-                    </xsd:sequence>
-                </xsd:complexType>
+        <!-- Clave primaria -->
+        <xsd:key name="codigoUnico">
+            <xsd:selector xpath="productos/producto"/>
+            <xsd:field xpath="@codigo"/>
+        </xsd:key>
 
-                <!-- Clave foránea -->
-                <xsd:keyref name="relacionCodigo" refer="codigoUnico">
-                    <xsd:selector xpath="pedido"/>
-                    <xsd:field xpath="@codigoProducto"/>
-                </xsd:keyref>
-            </xsd:element>
-        </xsd:sequence>
-    </xsd:complexType>
-</xsd:element>
+        <!-- Clave foránea -->
+        <xsd:keyref name="relacionCodigo" refer="codigoUnico">
+            <xsd:selector xpath="pedidos/pedido"/>
+            <xsd:field xpath="@codigoProducto"/>
+        </xsd:keyref>
+    </xsd:element>
+</xsd:schema>
+
 ```
 
 ##### Explicación
