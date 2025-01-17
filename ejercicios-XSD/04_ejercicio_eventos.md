@@ -1,102 +1,89 @@
-### **Tarea: Crear un XML de Agenda con Eventos y Relaciones**
+### Tarea: Crear un XML, DTD y XSD para la Gestión de Eventos
 
-#### **Instrucciones Generales:**
+### Instrucciones Generales:
 
-1. El XML debe tener un elemento raíz llamado `<agenda>`, que contiene dos secciones principales:
-   - `<eventos>`: Donde se detallan todos los eventos.
-   - `<relaciones>`: Donde se especifican las conexiones entre eventos.
+Deberás crear tres documentos:
+1. **XML**: Contendrá información sobre una agenda de eventos.
+2. **DTD**: Definirá las reglas básicas para validar la estructura del XML.
+3. **XSD**: Especificará las reglas avanzadas de validación, incluyendo restricciones para atributos y elementos.
 
-2. Cada evento en la sección `<eventos>` debe tener:
-   - Un atributo `id` único.
-   - Un atributo `tipo` que puede ser:
-     - "Conferencia"
-     - "Taller"
-     - "Reunión"
-     - "Mesa Redonda"
-   - Sub-elementos:
-     - `<fecha>`: Fecha del evento en formato `AAAA-MM-DD`.
-     - `<hora>`: Hora del evento en formato `HH:MM`.
-     - `<lugar>`: Con sub-elementos:
-       - `<calle>`: Dirección exacta.
-       - `<ciudad>`: Ciudad donde ocurre el evento.
-       - `<pais>`: País donde ocurre el evento.
-     - `<participantes>`: Con una lista de `<participante>`, donde cada participante tiene:
-       - `<nombre>`: Nombre completo.
-       - `<email>`: Dirección de correo electrónico.
-       - `<rol>`: Rol que desempeña en el evento (por ejemplo: Ponente, Moderador, Asistente, Instructor).
+### Especificaciones del XML:
 
-3. La sección `<relaciones>` define conexiones entre eventos:
-   - Cada `<relacion>` tiene:
-     - Un atributo `origen`: ID del evento que origina la relación.
-     - Un atributo `destino`: ID del evento relacionado.
+#### **Estructura General del XML:**
+- El documento XML tiene un elemento raíz llamado `<agenda>`.
+- Dentro de `<agenda>` hay dos secciones principales:
+  - `<eventos>`: Lista de eventos.
+  - `<relaciones>`: Conexiones entre eventos.
 
----
+#### **Detalles de cada sección:**
 
-#### **Contenido a incluir en el XML:**
+##### **1. Lista de eventos:**
+- Cada evento será un elemento `<evento>` dentro de `<eventos>`.
+- Atributos y elementos requeridos:
+  - **`id` (atributo)**: Identificador único del evento.
+  - **`tipo` (atributo)**: Tipo del evento ("Conferencia", "Taller", "Reunión", "Mesa Redonda").
+  - `<fecha>`: Fecha del evento en formato `AAAA-MM-DD`.
+  - `<hora>`: Hora del evento en formato `HH:MM`.
+  - `<lugar>`: Información del lugar, con los siguientes sub-elementos:
+    - `<calle>`: Dirección específica.
+    - `<ciudad>`: Ciudad.
+    - `<pais>`: País.
+  - `<participantes>`: Contiene una lista de participantes, donde cada uno es un elemento `<participante>` con:
+    - `<nombre>`: Nombre completo del participante.
+    - `<email>`: Correo electrónico del participante.
+    - `<rol>`: Rol del participante en el evento ("Ponente", "Moderador", "Asistente", etc.).
 
-1. **Eventos a incluir:**
-   - **Evento 1 (Conferencia):**
-     - ID: `EVT-001`
-     - Fecha: `2025-04-15`
-     - Hora: `10:00`
-     - Lugar: Avenida Principal 123, Barcelona, España.
-     - Participantes:
-       1. Juan Pérez (Email: juan.perez@example.com, Rol: Ponente)
-       2. Lucía Fernández (Email: lucia.fernandez@example.com, Rol: Moderadora)
+##### **2. Relaciones entre eventos:**
+- Cada relación será un elemento `<relacion>` dentro de `<relaciones>`.
+- Atributos requeridos:
+  - **`origen` (atributo)**: Referencia al `id` del evento de origen.
+  - **`destino` (atributo)**: Referencia al `id` del evento relacionado.
 
-   - **Evento 2 (Taller):**
-     - ID: `EVT-002`
-     - Fecha: `2025-04-10`
-     - Hora: `15:00`
-     - Lugar: Calle Secundaria 456, Madrid, España.
-     - Participantes:
-       1. Ana López (Email: ana.lopez@example.com, Rol: Instructor)
+#### **Contenido Requerido:**
+- **4 eventos** con información completa (tipo, fecha, hora, lugar, participantes).
+- **3 relaciones** que conecten eventos mediante sus IDs.
 
-   - **Evento 3 (Reunión):**
-     - ID: `EVT-003`
-     - Fecha: `2025-04-12`
-     - Hora: `09:00`
-     - Lugar: Calle Tercera 789, Valencia, España.
-     - Participantes:
-       1. Carlos Martínez (Email: carlos.martinez@example.com, Rol: Moderador)
-       2. Elena García (Email: elena.garcia@example.com, Rol: Asistente)
 
-   - **Evento 4 (Mesa Redonda):**
-     - ID: `EVT-004`
-     - Fecha: `2025-04-20`
-     - Hora: `18:00`
-     - Lugar: Paseo de la Innovación 789, Sevilla, España.
-     - Participantes:
-       1. Isabel Romero (Email: isabel.romero@example.com, Rol: Ponente)
+### Especificaciones del DTD:
 
-2. **Relaciones entre eventos:**
-   - El evento `EVT-001` está relacionado con:
-     - `EVT-002`
-     - `EVT-003`
-   - El evento `EVT-002` está relacionado con:
-     - `EVT-004`
+1. **Define los elementos:**
+   - `<agenda>` es el elemento raíz.
+   - `<eventos>` y `<relaciones>` son hijos directos de `<agenda>`.
+   - `<evento>` es hijo de `<eventos>`.
+   - `<relacion>` es hijo de `<relaciones>`.
+   - `<participante>` es hijo de `<participantes>`.
 
----
+2. **Define los atributos:**
+   - Los eventos tienen atributos `id` y `tipo`.
+   - Las relaciones tienen atributos `origen` y `destino`.
 
-#### **Formato esperado del XML:**
+3. **Estructura del DTD:**
+   - Define reglas básicas para los elementos y atributos.
 
-```plaintext
-<agenda>
-    <eventos>
-        <!-- Aquí van los eventos con sus atributos, fecha, lugar y participantes -->
-    </eventos>
-    <relaciones>
-        <!-- Aquí van las relaciones entre eventos -->
-    </relaciones>
-</agenda>
-```
+
+### Especificaciones del XSD:
+
+1. **Define las claves (`ID` y `IDREF`):**
+   - El atributo `id` de `<evento>` debe ser único.
+   - Los atributos `origen` y `destino` de `<relacion>` deben referenciar un `id` existente en la lista de eventos.
+
+2. **Define restricciones avanzadas:**
+   - Los elementos `<fecha>` y `<hora>` deben seguir formatos específicos (`AAAA-MM-DD` y `HH:MM`).
+   - Los correos electrónicos deben validarse con un patrón que incluya `@` y un dominio.
+   - **Restricción adicional:** El elemento `<rol>` debe aceptar únicamente valores predefinidos:
+     - "Ponente", "Moderador", "Asistente", "Instructor".
+   - **Restricción adicional:** El atributo `tipo` de `<evento>` debe ser uno de los siguientes:
+     - "Conferencia", "Taller", "Reunión", "Mesa Redonda".
+   - **Restricción adicional:** El elemento `<ciudad>` debe tener una longitud mínima de 3 caracteres y máxima de 50 caracteres.
+
+3. **Estructura del XSD:**
+   - Define todos los elementos, atributos y sus tipos de datos.
+   - Incluye validación de patrones y restricciones de claves.
+
+### Entregables:
+
+1. **XML**: Archivo que contiene información sobre la agenda de eventos.
+2. **DTD**: Archivo que define las reglas básicas de validación.
+3. **XSD**: Archivo que incluye reglas avanzadas de validación.
 
 ---
-
-#### **Notas para la creación del XML:**
-- Asegúrate de que los atributos `id`, `origen` y `destino` tengan valores consistentes.
-- Los elementos `<participante>` deben incluir toda la información solicitada (nombre, email, rol).
-- Las relaciones en `<relaciones>` deben utilizar únicamente IDs existentes en los eventos definidos en `<eventos>`.
-
-### Crear DTD y XSD:
-Crea un XSD y un DTD para validar la información del XML.
