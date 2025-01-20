@@ -90,10 +90,10 @@ Archivo XML solucion:
 ### XSD
 Escribe un esquema que valide:
 
-`<empleados>` contiene una lista de `<empleado>`.
-Cada `<empleado>` debe tener un `<nombre>`, `<apellido>`, `<edad>` y `<direccion>`.
-`<edad>` debe estar entre 18 y 65.
-`<direccion>` debe tener `<calle>`, `<ciudad>` y `<codigoPostal>`.
+- `<empleados>` contiene una lista de `<empleado>`.
+- Cada `<empleado>` debe tener un `<nombre>`, `<apellido>`, `<edad>` y `<direccion>`.
+- `<edad>` debe estar entre 18 y 65.
+- `<direccion>` debe tener `<calle>`, `<ciudad>` y `<codigoPostal>`.
 
 Archivo XSD solucion:
 ```xml
@@ -188,7 +188,37 @@ Solución XSD:
 ## Ejercicio 8: Farmacia
 Obten un XSD válido del siguiente archivo XML:
 ```xml
-
+<suministrosmedicos>
+    <antibiotico>
+        <nombre>Penicilina</nombre>
+    </antibiotico>
+    <antibiotico>
+        <nombre>Penicilina</nombre>
+        <nombrecomercial>Zitromax</nombrecomercial>
+    </antibiotico>
+    <antibiotico>
+        <nombre>Amoxicilina</nombre>
+    </antibiotico>
+    <analgesico pvp="14.80 euros">
+        <nombre>Paracetamol</nombre>
+    </analgesico>
+    <analgesico pvp="14.80 euros">
+        <fechadecaducidad>15-02-2026</fechadecaducidad>
+        <nombre>Apiretal</nombre>
+    </analgesico>
+    <antitusivo>
+        <tiporeceta>Innecesaria</tiporeceta>
+        <presentacion  dosisrecomendada="1-1-1">Jarabe</presentacion>
+    </antitusivo>
+    <antitusivo>
+        <presentacion  dosisrecomendada="1-1-1">Jarabe</presentacion>
+        <tiporeceta>Atencion primaria</tiporeceta>
+    </antitusivo>
+    <antitusivo>
+        <tiporeceta>Atencion primaria</tiporeceta>
+        <presentacion dosisrecomendada="0-0-1">Pastillas</presentacion>
+    </antitusivo>
+</suministrosmedicos>
 ```
 Solución XSD:
 ```xml
