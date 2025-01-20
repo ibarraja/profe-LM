@@ -142,11 +142,19 @@ Aplica las siguientes restricciones:
   <xsd:element name="aeropuerto">
     <xsd:complexType>
       <xsd:sequence>
-        <xsd:element name="avion" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+
+        <!-- Definición de Avión -->
+        <xsd:element name="avion" maxOccurs="unbounded">
           <xsd:complexType>
             <xsd:sequence>
-              <xsd:element name="modelo" base="xsd:string">
-              <xsd:element name="compania" base="xsd:string">
+              <xsd:element name="modelo" type="xsd:string"/>
+              <xsd:element name="compania">
+                <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                    <xsd:pattern value="[A-Za-z\s]+"/>
+                  </xsd:restriction>
+                </xsd:simpleType>
+              </xsd:element>
               <xsd:element name="capacidad">
                 <xsd:simpleType>
                   <xsd:restriction base="xsd:integer">
@@ -154,87 +162,90 @@ Aplica las siguientes restricciones:
                     <xsd:maxInclusive value="300"/>
                   </xsd:restriction>
                 </xsd:simpleType>
-                                <!-- Crew -->
+              </xsd:element>
+              
+              <!-- Crew -->
               <xsd:element name="crew">
                 <xsd:complexType>
-                  <xsd:sequence>                
-                    <xsd:element name="piloto" base="xsd:string"/>
-                    <xsd:element name="copiloto" base="xsd:string"/>
-                    <xsd:element name="flight_attendance">
+                  <xsd:sequence>
+                    <xsd:element name="piloto" type="xsd:string"/>
+                    <xsd:element name="copiloto" type="xsd:string"/>
+                    <xsd:element name="flight_attendance" maxOccurs="unbounded">
                       <xsd:complexType>
                         <xsd:sequence>
-                          <xsd:element name="nombre" base="xsd:string"/>
+                          <xsd:element name="nombre" type="xsd:string"/>
                         </xsd:sequence>
                       </xsd:complexType>
                     </xsd:element>
-                  </xsd:sequence>                
-                </xsd:complexType>
-                                <!-- Pasajeros -->
-              <xsd:element name="pasajeros">
-                <xsd:complexType>
-                  <xsd:sequence>
-                    <xsd:element name="pasajero"/>
-                      <xsd:complexType>
-                        <xsd:atribute name="id"/>
-                        <xsd:sequence>
-                          <xsd:element name="nombre" base="xsd:string"/>
-                          <xsd:element name="nacionalidad" base="xsd:string"/>
-                          
-                          <xsd:element name="maletas">
-                            <xsd:complexType>
-                              <xsd:sequence>
-                                <xsd:element name="maleta">
-                                <xsd:attribute name="peso">
-                                  <xsd:simpleType>
-                                    <xsd:restriction base="xsd:decimal">
-                                      <xsd:fractionDigits value="1"/>
-                                      <xsd:minExclusive value="0"/>
-                                    </xsd:restriction>
-                                  </xsd:simpleType>
-                                </xsd:attribute>  
-                              </xsd:sequence>
-                            </xsd:complexType>
-                          </xsd:element>
-
-                        </xsd:sequence>
-                      </xsd:complexType>
-                    </xsd:element>  
                   </xsd:sequence>
                 </xsd:complexType>
               </xsd:element>
-              
-            </xsd:sequence>
-          </xsd:complexType>
-                                <!-- Atributo y restricciónes -->
-          <xsd:attribute name="id">
-            <xsd:simpleType>
-              <xsd:restriction base="xsd:string">
-                <xsd:pattern value="[A-Z][0-9]{3}"/>
-              </xsd:restriction>
-            </xsd:simpleType>
-          </xsd:attribute>
 
+              <!-- Pasajeros -->
+              <xsd:element name="pasajeros">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="pasajero" maxOccurs="unbounded">
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element name="nombre" type="xsd:string"/>
+                          <xsd:element name="nacionalidad" type="xsd:string"/>
+                          <xsd:element name="maletas" minOccurs="0">
+                            <xsd:complexType>
+                              <xsd:sequence>
+                                <xsd:element name="maleta" maxOccurs="unbounded">
+                                  <xsd:complexType>
+                                    <xsd:simpleContent>
+                                      <xsd:extension base="xsd:string">
+                                        <xsd:attribute name="peso">
+                                          <xsd:simpleType>
+                                            <xsd:restriction base="xsd:decimal">
+                                              <xsd:minInclusive value="0.0"/>
+                                              <xsd:maxInclusive value="50.0"/>
+                                              <xsd:fractionDigits value="1"/>
+                                            </xsd:restriction>
+                                          </xsd:simpleType>
+                                        </xsd:attribute>
+                                      </xsd:extension>
+                                    </xsd:simpleContent>
+                                  </xsd:complexType>
+                                </xsd:element>
+                              </xsd:sequence>
+                            </xsd:complexType>
+                          </xsd:element>
+                        </xsd:sequence>
+                        <xsd:attribute name="id" type="xsd:ID" use="required"/>
+                      </xsd:complexType>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="id" type="xsd:string"/>
+          </xsd:complexType>
         </xsd:element>
 
-        <xsd:element name="puertas_embarque" maxOccurs="1">
+        <!-- Puertas de Embarque -->
+        <xsd:element name="puertas_embarque">
           <xsd:complexType>
             <xsd:sequence>
               <xsd:element name="puerta" maxOccurs="unbounded">
-                <xsd:simpleType>
-                  <xsd:restriction base="xsd:string">
-                    <xsd:enumeration value="Abierta"/>
-                    <xsd:enumeration value="Cerrada"/>
-                  </xsd:restriction>
-                </xsd:simpleType>
-                <xsd:attribute name="id" type="xsd:string"/>
+                <xsd:complexType>
+                  <xsd:simpleContent>
+                    <xsd:extension base="xsd:string">
+                      <xsd:attribute name="id" type="xsd:string" use="required"/>
+                    </xsd:extension>
+                  </xsd:simpleContent>
+                </xsd:complexType>
               </xsd:element>
             </xsd:sequence>
           </xsd:complexType>
         </xsd:element>
-
       </xsd:sequence>
     </xsd:complexType>
   </xsd:element>
+</xsd:schema>
+
 ```
 
 ## Ejercicio 3: Modificación y Ampliación del XML
