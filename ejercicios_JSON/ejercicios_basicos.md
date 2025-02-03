@@ -34,6 +34,49 @@ Convierte el siguiente XML en JSON.
     <disponible>true</disponible>
 </producto>
 ```
+🔹 **3er XML:**
+```xml
+<orden>
+    <cliente>
+        <nombre>Juan Pérez</nombre>
+        <correo>juan.perez@example.com</correo>
+        <telefono>+34 600 123 456</telefono>
+    </cliente>
+    <productos>
+        <producto>
+            <nombre>Portátil HP</nombre>
+            <especificaciones>
+                <procesador>Intel i7</procesador>
+                <ram>16GB</ram>
+                <almacenamiento>512GB SSD</almacenamiento>
+            </especificaciones>
+            <precio moneda="EUR">899.99</precio>
+            <cantidad>1</cantidad>
+        </producto>
+        <producto>
+            <nombre>Ratón Inalámbrico</nombre>
+            <especificaciones>
+                <marca>Logitech</marca>
+                <modelo>MX Master 3</modelo>
+                <conexion>Bluetooth</conexion>
+            </especificaciones>
+            <precio moneda="EUR">99.99</precio>
+            <cantidad>2</cantidad>
+        </producto>
+    </productos>
+    <envio>
+        <direccion>
+            <calle>Calle Mayor 123</calle>
+            <ciudad>Madrid</ciudad>
+            <codigo_postal>28001</codigo_postal>
+            <pais>España</pais>
+        </direccion>
+        <metodo>Express</metodo>
+        <costo moneda="EUR">10.00</costo>
+    </envio>
+    <total moneda="EUR">1109.97</total>
+</orden>
+```
 
 ✍ **1er JSON equivalente:**
 ```json
@@ -52,21 +95,14 @@ Convierte el siguiente XML en JSON.
   "producto": {
     "nombre": "...",
     "especificaciones": {
-      "pantalla": {
-        "tamaño": "...",
-        "tipo": "..."
-      },
-      "bateria": {
-        "capacidad": "...",
-        "carga_rapida": ...
-      }
-    },
-    "precio": {
-      "valor": ..., 
-      "moneda": "..."
-    },
-    "disponible": ...
-  }
+     ...
+   
+}
+```
+✍ **3er JSON equivalente:**
+```json
+{
+  ...
 }
 ```
 ---
