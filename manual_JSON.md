@@ -986,7 +986,7 @@ except jsonschema.exceptions.ValidationError as err:
 }
 ```
 
-❎ **JSON inválido (código postal incorrecto):**
+❌ **JSON inválido (código postal incorrecto):**
 ```json
 {
   "usuario": "juanperez",
