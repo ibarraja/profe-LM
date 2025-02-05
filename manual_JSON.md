@@ -792,12 +792,12 @@ INSERT INTO clientes (informacion) VALUES ('{
 
 ✅ **Consulta de un campo dentro del JSON:**
 ```sql
-SELECT informacion->>'$.nombre' AS nombre FROM clientes;
+SELECT JSON_UNQUOTE(JSON_VALUE(informacion, '$.nombre')) AS nombre FROM clientes;
 ```
 
 ✅ **Filtrar registros por un valor en JSON:**
 ```sql
-SELECT * FROM clientes WHERE informacion->>'$.ciudad' = 'Madrid';
+SELECT * FROM clientes WHERE JSON_UNQUOTE(JSON_VALUE(informacion, '$.ciudad')) = 'Madrid';
 ```
 
 ---
