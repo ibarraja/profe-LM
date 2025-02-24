@@ -102,7 +102,8 @@ Desarrolla:
   - `<nombre>`, `<pais>`.  
 - `<usuarios>` contiene `<usuario>` con:  
   - `id` (atributo único).  
-  - `<nombre>`, `<email>`, `<suscripcion>` (básica, estándar, premium).  
+  - `<nombre>`, `<email>`, `<suscripcion>` que puede ser: `básica`, `estándar` o `premium.
+  - Además `<suscripcion>` cuenta con dos atributos `dia-renovación` (tiene que ser un número entero positivo y como valor máximo que pueda tomar 31) y `fin-contrato` (opcional, dia del mes en el que se finaliza el contrato, numero entero, que toma como valor máximo 31).  
   - `<historial>` con múltiples `<visualizacion>`:  
     - `contenidoId` (referencia a `<titulo>`).  
     - `<fecha>`, `<progreso>` (% visto).  
