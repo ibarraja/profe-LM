@@ -26,19 +26,28 @@ Crea los siguientes archivos:
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pedidos [
     <!ELEMENT pedidos (pedido+)>
+    
     <!ELEMENT pedido (fecha,cliente,productos)>
-    <!ELEMENT fecha (#PCDATA)>
     <!ATTLIST pedido id ID #REQUIRED>
-    <!ELEMENT cliente (nombre,email,telefono)>
+
+    <!ELEMENT fecha (#PCDATA)>
+    
+    <!ELEMENT cliente (nombre, email, telefono)>
     <!ELEMENT nombre (#PCDATA)>
     <!ELEMENT email (#PCDATA)>
     <!ELEMENT telefono (#PCDATA)>
     <!ATTLIST cliente id ID #REQUIRED>
-    <!ELEMENT productos (producto+)>
-    <!ELEMENT producto (nombre,precio,cantidad)>
+
+    <!ELEMENT productos (producto*)>
+
+    <!ELEMENT producto (nombre, precio, cantidad)>
     <!ELEMENT precio (#PCDATA)>
     <!ELEMENT cantidad (#PCDATA)>
-    <!ATTLIST producto id ID #REQUIRED>
+    <!ATTLIST producto 
+        id ID #REQUIRED
+        clienteRef IDREF #REQUIRED
+    >
+
 ]>
 
 <pedidos>
@@ -50,7 +59,7 @@ Crea los siguientes archivos:
             <telefono>666777888</telefono>
         </cliente>
         <productos>
-            <producto id="P001">
+            <producto id="P001" clienteRef="C001">
                 <nombre>Teclado mecánico 60%</nombre>
                 <precio>89.99</precio>
                 <cantidad>1</cantidad>
@@ -63,10 +72,11 @@ Crea los siguientes archivos:
 **XSD:**
 ```xml
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
     <xsd:element name="pedidos">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="pedido" type="pedidoType" maxOccurs="unbounded"/>
+                <xsd:element name="pedido" type="pedidoType" minOccurs="1" maxOccurs="unbounded"/>
             </xsd:sequence>
         </xsd:complexType>
 
@@ -74,63 +84,73 @@ Crea los siguientes archivos:
             <xsd:selector xpath="pedido"/>
             <xsd:field xpath="@id"/>
         </xsd:key>
-
+        <xsd:key name="idCliente">
+            <xsd:selector xpath="pedido/cliente"/>
+            <xsd:field xpath="@id"/>
+        </xsd:key>
         <xsd:key name="idProducto">
             <xsd:selector xpath="pedido/productos/producto"/>
             <xsd:field xpath="@id"/>
         </xsd:key>
+
+        <xsd:keyref name="clienteRefProducto" refer="idCliente">
+            <xsd:selector xpath="pedido/productos/producto"/>
+            <xsd:field xpath="@clienteRef"/>
+        </xsd:keyref>
+        
+
     </xsd:element>
 
     <xsd:complexType name="pedidoType">
         <xsd:sequence>
             <xsd:element name="fecha" type="xsd:date"/>
-            <xsd:element name="cliente">
-                <xsd:complexType>
-                    <xsd:sequence>
-                        <xsd:element name="nombre" type="xsd:string"/>
-                        <xsd:element name="email">
-                            <xsd:simpleType>
-                                <xsd:restriction base="xsd:string">
-                                    <xsd:pattern value=".+@.+\..+"/>
-                                </xsd:restriction>
-                            </xsd:simpleType>
-                        </xsd:element>
-                        <xsd:element name="telefono" type="xsd:string"/>
-                    </xsd:sequence>
-                    <xsd:attribute name="id" type="xsd:string"/>
-                </xsd:complexType>
-            </xsd:element>
-            <xsd:element name="productos">
-                <xsd:complexType>
-                    <xsd:sequence>
-                        <xsd:element name="producto" type="productoType" maxOccurs="unbounded"/>
-                    </xsd:sequence>
-                </xsd:complexType>
-            </xsd:element>
+            <xsd:element name="cliente" type="clienteType"/>
+            <xsd:element name="productos" type="productosType"/>
         </xsd:sequence>
-        <xsd:attribute name="id" type="xsd:string" use="required"/>
+        <xsd:attribute name="id" type="xsd:string"/>
     </xsd:complexType>
+
+    <xsd:complexType name="clienteType">
+        <xsd:sequence>
+            <xsd:element name="nombre" type="xsd:string"/>
+            <xsd:element name="email" type="xsd:string"/>
+            <xsd:element name="telefono" type="xsd:string"/>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:string"/>
+            
+    </xsd:complexType>
+
+
+    <xsd:complexType name="productosType">
+        <xsd:sequence>
+            <xsd:element name="producto" type="productoType"/>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="xsd:string"/>
+    </xsd:complexType>
+
 
     <xsd:complexType name="productoType">
         <xsd:sequence>
             <xsd:element name="nombre" type="xsd:string"/>
-            <xsd:element name="precio">
-                <xsd:simpleType>
-                    <xsd:restriction base="xsd:decimal">
-                        <xsd:minInclusive value="1"/>
-                    </xsd:restriction>
-                </xsd:simpleType>
-            </xsd:element>
-            <xsd:element name="cantidad">
-                <xsd:simpleType>
-                    <xsd:restriction base="xsd:integer">
-                        <xsd:minInclusive value="1"/>
-                    </xsd:restriction>
-                </xsd:simpleType>
-            </xsd:element>
+            <xsd:element name="precio" type="precioType"/>
+            <xsd:element name="cantidad" type="cantidadType"/>
         </xsd:sequence>
-        <xsd:attribute name="id" type="xsd:string" use="required"/>
+        <xsd:attribute name="id" type="xsd:string"/>
+        <xsd:attribute name="clienteRef" type="xsd:string"/>
     </xsd:complexType>
+
+    <xsd:simpleType name="precioType">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:minExclusive value="0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="cantidadType">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
 </xsd:schema>
 ```
 
