@@ -1,0 +1,50 @@
+1,Laptop,1200,5
+2,Mouse,25,30
+3,Teclado,45,15
+4,Monitor,250,8
+5,Disco Duro,80,12
+6,Memoria RAM 8GB,60,20
+7,Memoria RAM 16GB,110,10
+8,Placa Base,150,5
+9,Fuente de Alimentación 500W,70,7
+10,Fuente de Alimentación 750W,120,6
+11,Tarjeta Gráfica RTX 3060,350,4
+12,Tarjeta Gráfica RTX 3070,500,3
+13,Procesador Ryzen 5,250,8
+14,Procesador Ryzen 7,350,5
+15,Ventilador CPU,40,10
+16,Pasta Térmica,10,25
+17,SSD 500GB,100,15
+18,SSD 1TB,180,10
+19,Cable HDMI,15,40
+20,Cable USB-C,12,35
+21,Ratón Inalámbrico,30,20
+22,Teclado Mecánico,90,10
+23,Impresora Láser,200,5
+24,Silla Gamer,150,8
+25,Webcam Full HD,50,12
+26,Auriculares Bluetooth,80,15
+27,Microfono USB,70,7
+28,Hub USB 3.0,25,18
+29,Router WiFi 6,120,10
+30,Repetidor WiFi,40,12
+31,Cámara de Seguridad,100,6
+32,Altavoces Bluetooth,60,20
+33,Power Bank 20000mAh,50,15
+34,Smartwatch,150,10
+35,Tableta Gráfica,200,5
+36,Cargador Universal,25,30
+37,Joystick,45,15
+38,Controlador MIDI,90,8
+39,Cámara Reflex,600,3
+40,Lente 50mm,200,5
+41,Lente Gran Angular,300,4
+42,Trípode Profesional,100,6
+43,Tarjeta SD 128GB,40,25
+44,Tarjeta SD 256GB,70,15
+45,Disco Externo 2TB,180,8
+46,Disco Externo 4TB,300,5
+47,Pendrive 64GB,20,30
+48,Pendrive 128GB,35,20
+49,Lector de Tarjetas,25,15
+50,Funda para Laptop,30,18
