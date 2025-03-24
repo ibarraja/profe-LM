@@ -1,4 +1,4 @@
-# Introducción a Archivos, JSON y CSV
+# Manual: Semana 1 - Introducción a Archivos, JSON y CSV
 
 ## 🎯 Objetivo
 Aprender a leer y escribir archivos CSV y JSON en Python sin el uso de librerías externas.
@@ -192,4 +192,211 @@ with open("datos.csv", "r") as f:
 Los datos pueden accederse mediante nombres de columnas en lugar de índices.
 
 ---
+
+# **Manual: Semana 2 - Manipulación de Datos con Listas y Diccionarios**
+
+## **✅ Objetivo:**
+Aplicar estructuras de datos avanzadas en CSV y JSON utilizando listas y diccionarios. Al final de la semana, serás capaz de transformar archivos en estos formatos en estructuras manipulables con Python, así como aplicar búsquedas, ordenaciones, actualizaciones y exportar los resultados. También se trabajará con un CRUD básico para gestionar registros.
+
+---
+
+## **1️⃣ Lectura de Archivos CSV y JSON como Listas de Diccionarios**
+
+Trabajar con archivos en formato CSV y JSON es fundamental en el desarrollo y análisis de datos, ya que son dos de los formatos más utilizados para el almacenamiento e intercambio de información estructurada.
+
+- **CSV**: ideal para representar datos tabulares como hojas de cálculo.
+- **JSON**: permite estructuras jerárquicas y se usa ampliamente en APIs y configuraciones.
+
+Convertir estos archivos a listas de diccionarios en Python nos permite acceder a sus datos de manera eficiente, utilizando claves para cada valor.
+
+### 🔹 Leer CSV como lista de diccionarios
+```python
+import csv
+
+with open("datos.csv", newline='', encoding='utf-8') as f:
+    lector = csv.DictReader(f)
+    datos = list(lector)
+```
+
+### 🔹 Leer JSON como lista de diccionarios
+```python
+import json
+
+with open("datos.json", "r", encoding="utf-8") as f:
+    datos = json.load(f)
+```
+
+---
+
+## **2️⃣ Buscar, Ordenar y Modificar Registros**
+
+Una vez cargados los datos, podemos analizarlos y transformarlos según nuestras necesidades. Esto es esencial para tareas como limpieza de datos, generación de informes o análisis exploratorios.
+
+### 🔸 Buscar elementos que cumplan una condición
+```python
+# Buscar personas mayores de 30
+mayores_30 = list(filter(lambda p: int(p["edad"]) > 30, datos))
+```
+
+### 🔸 Ordenar los registros por una clave
+```python
+# Ordenar por edad de menor a mayor
+ordenados = sorted(datos, key=lambda p: int(p["edad"]))
+```
+
+### 🔸 Modificar registros
+```python
+# Incrementar edad en 1 año a todos
+for persona in datos:
+    persona["edad"] = str(int(persona["edad"]) + 1)
+```
+
+Estas operaciones permiten preparar los datos para su análisis posterior, actualizarlos en función de reglas de negocio o simplemente reorganizarlos para visualización.
+
+---
+
+## **3️⃣ Escritura de Datos Procesados**
+
+Una vez procesados los datos, es común necesitar exportarlos para compartirlos o almacenarlos. Python facilita la escritura tanto en CSV como en JSON, lo que permite elegir el formato más adecuado según el caso.
+
+### 🔸 Escribir lista de diccionarios a CSV
+```python
+with open("datos_actualizados.csv", "w", newline='', encoding='utf-8') as f:
+    campos = datos[0].keys()
+    escritor = csv.DictWriter(f, fieldnames=campos)
+    escritor.writeheader()
+    escritor.writerows(datos)
+```
+
+### 🔸 Escribir lista de diccionarios a JSON
+```python
+with open("datos_actualizados.json", "w", encoding="utf-8") as f:
+    json.dump(datos, f, indent=4)
+```
+
+---
+
+## **4️⃣ Conversión entre CSV y JSON**
+
+Aprender a convertir datos entre formatos es esencial cuando trabajamos con herramientas distintas, ya que no todas aceptan los mismos tipos de archivos. Por ejemplo, un sistema puede exportar datos en CSV pero otro requerirlos en JSON.
+
+### 🔸 CSV a JSON
+```python
+import csv, json
+
+with open("datos.csv", newline='', encoding='utf-8') as f:
+    datos = list(csv.DictReader(f))
+
+with open("datos.json", "w", encoding='utf-8') as f:
+    json.dump(datos, f, indent=4)
+```
+
+### 🔸 JSON a CSV
+```python
+with open("datos.json", "r", encoding='utf-8') as f:
+    datos = json.load(f)
+
+with open("datos.csv", "w", newline='', encoding='utf-8') as f:
+    campos = datos[0].keys()
+    escritor = csv.DictWriter(f, fieldnames=campos)
+    escritor.writeheader()
+    escritor.writerows(datos)
+```
+
+---
+
+## **5️⃣ Práctica: Crear un CRUD Básico**
+
+CRUD significa **Create, Read, Update y Delete** (Crear, Leer, Actualizar y Eliminar). Estas operaciones son la base para cualquier sistema que gestiona información, desde aplicaciones web hasta scripts de análisis de datos.
+
+En Python, no se modifica un archivo JSON o CSV directamente línea a línea. En su lugar, seguimos un flujo de trabajo basado en tres pasos:
+
+1. **Cargar el archivo** y convertir su contenido en una lista de diccionarios.
+2. **Modificar esa lista en memoria**, utilizando métodos como `append()`.
+3. **Guardar la lista modificada** reescribiendo el archivo original.
+
+Este enfoque asegura que trabajamos con estructuras de datos nativas de Python, lo que simplifica enormemente las operaciones.
+
+---
+
+### 🔸 Funciones CRUD en memoria (lista de diccionarios):
+```python
+def crear(datos, nuevo):
+    datos.append(nuevo)
+
+def leer(datos):
+    for item in datos:
+        print(item)
+
+def actualizar(datos, clave, valor_busqueda, campo_modificar, nuevo_valor):
+    for item in datos:
+        if item[clave] == valor_busqueda:
+            item[campo_modificar] = nuevo_valor
+
+def eliminar(datos, clave, valor):
+    return [item for item in datos if item[clave] != valor]
+```
+
+---
+
+### 🔹 Ejemplo con JSON
+```python
+import json
+
+# Cargar datos desde archivo JSON
+def cargar_json(nombre_archivo):
+    with open(nombre_archivo, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+# Guardar datos actualizados en el archivo JSON
+def guardar_json(nombre_archivo, datos):
+    with open(nombre_archivo, "w", encoding="utf-8") as f:
+        json.dump(datos, f, indent=4)
+
+# Flujo de trabajo
+archivo = "datos.json"
+datos = cargar_json(archivo)
+
+crear(datos, {"nombre": "Eva", "edad": 31})
+actualizar(datos, "nombre", "Eva", "edad", 32)
+datos = eliminar(datos, "nombre", "Luis")
+
+guardar_json(archivo, datos)
+```
+
+---
+
+### 🔹 Ejemplo con CSV
+```python
+import csv
+
+# Cargar datos desde archivo CSV
+def cargar_csv(nombre_archivo):
+    with open(nombre_archivo, "r", newline='', encoding="utf-8") as f:
+        lector = csv.DictReader(f)
+        return list(lector)
+
+# Guardar datos actualizados en el archivo CSV
+def guardar_csv(nombre_archivo, datos):
+    if not datos:
+        return  # Evita errores si la lista está vacía
+    with open(nombre_archivo, "w", newline='', encoding="utf-8") as f:
+        campos = datos[0].keys()
+        escritor = csv.DictWriter(f, fieldnames=campos)
+        escritor.writeheader()
+        escritor.writerows(datos)
+
+# Flujo de trabajo
+archivo = "datos.csv"
+datos = cargar_csv(archivo)
+
+crear(datos, {"nombre": "Eva", "edad": "31", "ciudad": "Bilbao"})
+actualizar(datos, "nombre", "Eva", "edad", "32")
+datos = eliminar(datos, "nombre", "Luis")
+
+guardar_csv(archivo, datos)
+```
+
+📌 **Importante:** en el caso de CSV, los valores siempre se manejan como cadenas, por lo que es recomendable realizar conversiones (`int()`, `str()`) si se necesita operar con ellos como números.
+
 
