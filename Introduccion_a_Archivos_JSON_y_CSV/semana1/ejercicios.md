@@ -133,7 +133,7 @@ Lista de personas registradas:
 
 
 📌 **Instrucciones:**  
-✔ Utiliza como código base del fichero que encontrarás en la [carpeta ejercicio_8](https://github.com/ibarraja/profe-LM/tree/main/Introduccion_a_Archivos_JSON_y_CSV/ejercicio_8).
+✔ Utiliza como código base del fichero que encontrarás en la [carpeta ejercicio_8](https://github.com/ibarraja/profe-LM/tree/main/Introduccion_a_Archivos_JSON_y_CSV/semana1/ejercicio_8).
 
 ✔ Implementa el código de cada función utilizando `json` y `csv`.  
 ✔ Diseña un **menú interactivo** que permita al usuario elegir opciones para agregar, ver, eliminar y convertir datos.  
