@@ -129,9 +129,11 @@ Lista de personas registradas:
 ### **Ejercicio 8: Sistema de Gestión de Datos Interactivo** 🚀
 📌 **Objetivos:**  
 ✔ Crear un **menú interactivo** para gestionar datos en **JSON y CSV**.  
-✔ Permitir al usuario elegir en qué formato **guardar, ver y eliminar datos**.  
+✔ Permitir al usuario elegir en qué formato **guardar, ver y eliminar datos**.
+
 
 📌 **Instrucciones:**  
+✔ Utiliza como código base los ficheros que encontrarás en la [carpeta ejercicio_8](https://github.com/ibarraja/profe-LM/tree/main/Introduccion_a_Archivos_JSON_y_CSV/ejercicio_8)
 ✔ Implementa el código de cada función utilizando `json` y `csv`.  
 ✔ Diseña un **menú interactivo** que permita al usuario elegir opciones para agregar, ver, eliminar y convertir datos.  
 ✔ Usa estructuras de control (`if-elif-else`) para validar la entrada del usuario.  
