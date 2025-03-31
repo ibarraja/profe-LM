@@ -38,7 +38,6 @@ BI and Visualization,313,259900,15000,135092.1,244900
 Data Quality and Operations,55,289120,23753,100879.47,265367
 Data Management and Strategy,61,250000,46400,103139.93,203600
 Cloud and Database,5,190000,115000,155000.0,75000
-
 ```
 ---
 
