@@ -134,7 +134,7 @@ Objetivo Extraer subconjuntos de datos a partir de condiciones múltiples y expo
 
 ### Instrucciones
 1. Filtrar empleos con
-   - `work_setting == Remote` y `salary  100000`
+   - `work_setting == Remote` y `salary > 100000`
    - Guardar en `remoto_salario_alto.csv` y `remoto_salario_alto.json`
 
 2. Filtrar empleos con
