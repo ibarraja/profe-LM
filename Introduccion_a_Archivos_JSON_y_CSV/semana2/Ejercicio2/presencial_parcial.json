@@ -1,0 +1,26 @@
+[
+    {
+        "work_year": "2023",
+        "job_title": "Data Scientist",
+        "job_category": "Data Science and Research",
+        "salary": "133000",
+        "employee_residence": "United States",
+        "experience_level": "Entry-level",
+        "employment_type": "Part-time",
+        "work_setting": "In-person",
+        "company_location": "United States",
+        "company_size": "M"
+    },
+    {
+        "work_year": "2023",
+        "job_title": "Data Scientist",
+        "job_category": "Data Science and Research",
+        "salary": "58300",
+        "employee_residence": "United States",
+        "experience_level": "Entry-level",
+        "employment_type": "Part-time",
+        "work_setting": "In-person",
+        "company_location": "United States",
+        "company_size": "M"
+    }
+]

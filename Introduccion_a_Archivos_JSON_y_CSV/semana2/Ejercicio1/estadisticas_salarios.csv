@@ -1,0 +1,11 @@
+job_category,total_workers,max_salary,min_salary,mean_salary,range_salary
+Data Engineering,2260,385000,18000,146197.66,367000
+Data Architecture and Modeling,259,376080,52500,156002.36,323580
+Data Science and Research,3014,450000,16000,163758.58,434000
+Machine Learning and AI,1428,423000,15000,178925.85,408000
+Data Analysis,1457,430967,15000,108505.72,415967
+Leadership and Management,503,430640,20000,145476.02,410640
+BI and Visualization,313,259900,15000,135092.1,244900
+Data Quality and Operations,55,289120,23753,100879.47,265367
+Data Management and Strategy,61,250000,46400,103139.93,203600
+Cloud and Database,5,190000,115000,155000.0,75000
