@@ -397,6 +397,229 @@ datos = eliminar(datos, "nombre", "Luis")
 guardar_csv(archivo, datos)
 ```
 
-📌 **Importante:** en el caso de CSV, los valores siempre se manejan como cadenas, por lo que es recomendable realizar conversiones (`int()`, `str()`) si se necesita operar con ellos como números.
+# Semana 3 – Programación Funcional Aplicada a Datos
+
+## 1. Introducción al paradigma funcional
+
+La programación funcional es una forma de escribir código centrada en **qué se quiere hacer con los datos**, en lugar de cómo hacerlo paso a paso. A diferencia de la programación imperativa, que se basa en modificar variables y estados, la programación funcional **trabaja transformando datos con funciones puras**, evitando efectos secundarios.
+
+### Características principales:
+- **Funciones puras**: no modifican el estado global ni producen efectos secundarios.
+- **Inmutabilidad**: los datos no cambian una vez definidos.
+- **Funciones como ciudadanos de primera clase**: se pueden pasar como argumentos, retornar como resultado y almacenar en variables.
+
+### Comparación con el paradigma imperativo:
+- **Imperativo**: se centra en "cómo" hacer las cosas (pasos y estados).
+- **Funcional**: se centra en "qué" hacer sobre los datos (transformaciones).
+
+### 🔁 Comparativa práctica
+
+Imagina que queremos duplicar los números pares de una lista:
+
+### 🧱 Enfoque imperativo:
+```python
+numeros = [1, 2, 3, 4, 5]
+resultado = []
+
+for n in numeros:
+    if n % 2 == 0:
+        resultado.append(n * 2)
+
+print(resultado)  # [4, 8]
+```
+
+### 🧪 Enfoque funcional:
+```python
+numeros = [1, 2, 3, 4, 5]
+resultado = list(map(lambda x: x * 2, filter(lambda x: x % 2 == 0, numeros)))
+print(resultado)  # [4, 8]
+```
+
+### 🧠 Diferencias clave:
+| Característica            | Imperativo                        | Funcional                                  |
+|---------------------------|------------------------------------|--------------------------------------------|
+| Estado mutable            | Sí (usamos `resultado.append`)     | No (creamos una nueva lista)               |
+| Enfoque                   | Paso a paso                        | Transformaciones sobre datos               |
+| Uso de bucles             | Necesario                          | Reemplazado por `map`, `filter`, `reduce`  |
+| Estilo                    | Más explícito                      | Más compacto y declarativo                 |
+
+---
+
+## 2. Funciones funcionales en Python
+
+Python incluye funciones de orden superior que permiten aplicar transformaciones, filtrados o reducciones de forma muy compacta y funcional. Las más comunes son `map()`, `filter()`, `reduce()` y las funciones `lambda`.
+
+### 🔹 `map(función, iterable)`
+Transforma cada elemento de un iterable aplicando una función.
+
+#### 🧪 Ejemplo 1 – Básico:
+```python
+numeros = [1, 2, 3, 4]
+cuadrados = list(map(lambda x: x ** 2, numeros))
+print(cuadrados)  # [1, 4, 9, 16]
+```
+
+#### 🧪 Ejemplo 2 – Mayúsculas:
+```python
+nombres = ["ana", "luis", "mario"]
+mayusculas = list(map(lambda nombre: nombre.upper(), nombres))
+print(mayusculas)  # ['ANA', 'LUIS', 'MARIO']
+```
+
+### 🔹 `filter(función, iterable)`
+Filtra los elementos que cumplen una condición lógica.
+
+#### 🧪 Ejemplo 1 – Pares:
+```python
+numeros = [1, 2, 3, 4, 5]
+pares = list(filter(lambda x: x % 2 == 0, numeros))
+print(pares)  # [2, 4]
+```
+
+#### 🧪 Ejemplo 2 – Filtrar diccionarios:
+```python
+personas = [{"nombre": "Ana", "edad": 17}, {"nombre": "Luis", "edad": 22}]
+mayores = list(filter(lambda p: p["edad"] >= 18, personas))
+print(mayores)  # [{'nombre': 'Luis', 'edad': 22}]
+```
+
+### 🔹 `reduce(función, iterable)`
+Reduce una secuencia a un único valor acumulando paso a paso.
+
+> Se importa desde `functools`.
+
+#### 🧪 Ejemplo 1 – Suma total:
+```python
+from functools import reduce
+numeros = [1, 2, 3, 4]
+suma = reduce(lambda x, y: x + y, numeros)
+print(suma)  # 10
+```
+
+#### 🧪 Ejemplo 2 – Concatenar palabras:
+```python
+palabras = ["Hola", "qué", "tal"]
+frase = reduce(lambda x, y: x + " " + y, palabras)
+print(frase)  # 'Hola qué tal'
+```
+
+### 🔹 `lambda argumentos: expresión`
+Son funciones anónimas útiles para operaciones simples.
+
+#### 🧪 Ejemplo 1 – Multiplicación simple:
+```python
+multiplicar = lambda x, y: x * y
+print(multiplicar(4, 5))  # 20
+```
+
+#### 🧪 Ejemplo 2 – Ordenar por longitud:
+```python
+palabras = ["uno", "tres", "cuatro"]
+ordenadas = sorted(palabras, key=lambda p: len(p))
+print(ordenadas)  # ['uno', 'tres', 'cuatro']
+```
+
+### 🔄 Ejemplo completo combinando `map`, `filter` y `reduce`:
+```python
+from functools import reduce
+
+edades = [17, 22, 19, 34, 28]
+
+# Sumar el doble de las edades mayores de 20
+resultado = reduce(
+    lambda x, y: x + y,
+    map(lambda e: e * 2,
+        filter(lambda e: e > 20, edades))
+)
+print(resultado)  # (22 + 34 + 28) * 2 = 168
+```
+
+---
+
+## 3. Aplicación funcional sobre datos
+
+La programación funcional es especialmente útil cuando se trabaja con **colecciones de datos** como listas, archivos CSV o JSON. En lugar de escribir bucles `for` para recorrer y transformar estructuras, podemos utilizar `map`, `filter`, y `lambda` para aplicar transformaciones de manera más limpia, legible y declarativa.
+
+### 🔸 Listas simples
+
+Supongamos que tenemos una lista de edades y queremos obtener el doble de las que sean iguales o mayores a 30 años.
+
+```python
+edades = [21, 30, 35, 40, 18]
+adultos = list(filter(lambda x: x >= 30, edades))  # Filtramos los mayores o iguales a 30
+dobles = list(map(lambda x: x * 2, adultos))       # Multiplicamos por 2 cada edad filtrada
+print(dobles)  # [60, 70, 80]
+```
+
+👉 Esta secuencia es muy común: primero **filtramos** y luego **transformamos**. Se puede encadenar también:
+```python
+dobles_directos = list(map(lambda x: x * 2, filter(lambda x: x >= 30, edades)))
+```
+
+### 📄 Archivos CSV sin librerías
+
+En lugar de usar el módulo `csv`, podemos procesar un archivo CSV manualmente leyendo sus líneas y dividiéndolas con `split(',')`. Esto es útil cuando queremos mantener el control o evitar dependencias externas.
+
+Supón que tenemos este archivo `datos.csv`:
+```
+nombre,edad,activo
+Ana,25,True
+Luis,34,False
+Marta,41,True
+```
+
+Y queremos obtener las personas mayores de 30 años:
+
+```python
+with open("datos.csv", "r") as f:
+    lineas = f.readlines()  # Leemos todas las líneas
+    cabecera = lineas[0].strip().split(',')  # Extraemos las claves del encabezado
+    datos = [dict(zip(cabecera, l.strip().split(','))) for l in lineas[1:]]  # Convertimos en lista de diccionarios
+
+    mayores = list(filter(lambda d: int(d["edad"]) > 30, datos))  # Filtramos mayores de 30
+    for persona in mayores:
+        print(persona["nombre"], persona["edad"])
+```
+
+✅ Este patrón (`zip` + `split`) permite construir estructuras tipo JSON a partir de archivos planos. Luego, gracias a `filter` y `map`, podemos aplicar transformaciones y análisis.
+
+### 📦 Archivos JSON sin librerías
+
+Cuando cargamos un archivo JSON de forma manual, podemos usar `eval()` *solo si tenemos certeza de que el contenido es seguro*, por ejemplo, si el archivo fue generado por nuestro propio programa.
+
+Imagina este contenido en `datos.json`:
+```json
+[
+  {"nombre": "Ana", "activo": true},
+  {"nombre": "Luis", "activo": false},
+  {"nombre": "Marta", "activo": true}
+]
+```
+
+Y queremos obtener los usuarios activos:
+
+```python
+with open("datos.json", "r") as f:
+    texto = f.read()
+    datos = eval(texto)  # Convertimos el texto a lista de diccionarios (¡precaución!)
+
+    activos = list(filter(lambda d: d["activo"], datos))  # Filtramos los que tienen activo=True
+    for persona in activos:
+        print(persona["nombre"])
+```
+
+🛑 **Nota:** `eval()` ejecuta cualquier código de Python, por lo que puede ser peligroso si el archivo fue modificado por terceros. En producción o cuando sea posible, es mejor usar `json.load()`.
+
+---
+
+## 4. Buenas prácticas
+
+- Usa `with open()` siempre para manejar archivos.
+- Usa `eval()` solo si controlas totalmente el contenido JSON.
+- Prefiere `map` y `filter` cuando mejoran la claridad.
+- Evita `reduce` si hace el código menos legible.
+- Usa funciones `lambda` para tareas simples; si son complejas, mejor usar `def`.
+- Asegura que tus transformaciones no alteren el estado de los datos originales (inmutabilidad).
+
 
 
