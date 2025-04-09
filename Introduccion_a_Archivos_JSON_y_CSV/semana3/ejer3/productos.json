@@ -1,0 +1,5 @@
+[
+    {"nombre": "Teclado", "precio": 20, "stock": True},
+    {"nombre": "Ratón", "precio": 10, "stock": False},
+    {"nombre": "Pantalla", "precio": 150, "stock": True}
+]
