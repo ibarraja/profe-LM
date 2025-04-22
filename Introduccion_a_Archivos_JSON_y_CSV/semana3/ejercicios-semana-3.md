@@ -79,10 +79,19 @@ Usa el archivo `jobs_in_data.csv` para resolver:
 
 1. Filtra los trabajos cuya modalidad (`work_setting`) sea "Remote".
 2. Excluye los que pertenecen a la categoría `"Data Science and Research"`.
-3. Para los restantes, crea una lista con:
+3. Para los restantes, crea una lista de diccionarios con:
    - `job_title`
    - salario convertido a **miles de euros** si el `company_location` es europeo (`Germany`, `Spain`, `Portugal`...), o a **miles de dólares** si es `United States` (usa cambio: 1 € = 1.07 USD).
 4. Muestra los 5 trabajos con salario más alto.
+```python
+[
+  {'job_title': 'Principal Data Scientist', 'salary': 388.79}, 
+  {'job_title': 'Data Scientist', 'salary': 385.05}, 
+  {'job_title': 'Data Analytics Lead', 'salary': 378.5}, 
+  {'job_title': 'ML Engineer', 'salary': 359.81}, 
+  {'job_title': 'Applied Data Scientist', 'salary': 355.14}
+]
+```
 
 > ⚠️ Usa solo `open()`, `split()`, `map`, `filter`, `sorted`, `lambda`, `reduce`.
 
