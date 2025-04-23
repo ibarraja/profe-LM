@@ -621,5 +621,55 @@ with open("datos.json", "r") as f:
 - Usa funciones `lambda` para tareas simples; si son complejas, mejor usar `def`.
 - Asegura que tus transformaciones no alteren el estado de los datos originales (inmutabilidad).
 
+## 5. Apéndice: Utilidades funcionales útiles en Python
+
+### ✅ `set()` – Eliminar duplicados y obtener categorías únicas
+
+`set()` es una función incorporada de Python que permite crear conjuntos, es decir, **colecciones no ordenadas de elementos únicos**. Es muy útil cuando necesitamos obtener **valores sin repetir**.
+
+#### 🔍 Ejemplo básico:
+```python
+valores = ['A', 'B', 'A', 'C', 'B']
+unicos = set(valores)
+print(unicos)  # {'A', 'B', 'C'}
+```
+
+#### 🧠 Aplicación práctica (Ejercicio 7):
+Cuando queremos recorrer cada nivel de experiencia **una sola vez**, usamos `set()` para eliminar duplicados:
+
+```python
+niveles = set(map(lambda x: x["experience_level"], datos))
+```
+Esto evita que recorramos repetidamente el mismo nivel (por ejemplo, "Senior") cada vez que aparece en el archivo.
+
+---
+
+### 🔁 `zip()` – Combinar listas en pares clave-valor
+`zip()` se utiliza para **emparejar elementos de múltiples listas**. Es especialmente útil al convertir listas en diccionarios:
+
+```python
+claves = ['nombre', 'edad']
+valores = ['Ana', 25]
+print(dict(zip(claves, valores)))  # {'nombre': 'Ana', 'edad': 25}
+```
+
+---
+
+### 📊 `sorted()` con `lambda` – Ordenación personalizada
+Puedes usar `sorted()` junto a `lambda` para ordenar listas de diccionarios por cualquier clave:
+
+```python
+datos = [{'nombre': 'Ana', 'edad': 28}, {'nombre': 'Luis', 'edad': 22}]
+ordenados = sorted(datos, key=lambda x: x['edad'])
+print(ordenados)  # [{'nombre': 'Luis', 'edad': 22}, {'nombre': 'Ana', 'edad': 28}]
+```
+
+---
+
+### 🎯 Conclusión
+Estas funciones (`set`, `zip`, `sorted` + `lambda`) complementan muy bien a `map`, `filter`, y `reduce`, y son herramientas esenciales para aplicar la lógica funcional de forma elegante y eficiente en Python.
+
+
+
 
 
