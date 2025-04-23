@@ -663,13 +663,73 @@ datos = [{'nombre': 'Ana', 'edad': 28}, {'nombre': 'Luis', 'edad': 22}]
 ordenados = sorted(datos, key=lambda x: x['edad'])
 print(ordenados)  # [{'nombre': 'Luis', 'edad': 22}, {'nombre': 'Ana', 'edad': 28}]
 ```
-
 ---
 
-### 🎯 Conclusión
-Estas funciones (`set`, `zip`, `sorted` + `lambda`) complementan muy bien a `map`, `filter`, y `reduce`, y son herramientas esenciales para aplicar la lógica funcional de forma elegante y eficiente en Python.
+## 6. **Manejo de Comillas Dobles en Archivos CSV**
 
+En algunos archivos CSV, los valores de las celdas pueden contener **comas** o **comillas dobles** dentro del propio valor. Este comportamiento es habitual cuando los datos incluyen texto que puede contener comas, como descripciones o comentarios. Sin embargo, las comillas dobles pueden causar problemas al leer o escribir el archivo si no se manejan correctamente.
 
+### 1. **Comillas Dobles Dentro de los Valores**
+En CSV, los valores que contienen comas o comillas dobles deben estar **rodeados por comillas dobles**. Si hay comillas dobles dentro de un valor, deben ser **duplicadas** para evitar confusiones.
+
+**Ejemplo de CSV con comillas dobles**:
+```csv
+nombre,edad,comentarios
+"John ""The Rock"" Doe",30,"Famous wrestler and actor"
+"Ana ""The Scientist"" Smith",28,"Researcher in biology"
+```
+
+Aquí, el valor `"John "The Rock" Doe"` está correctamente rodeado por comillas dobles, y las comillas dentro del valor se duplican (`""`) para escaparlas correctamente.
+
+### 2. **Lectura de CSV con Comillas Dobles en Python**
+
+Cuando se lee un archivo CSV que contiene comillas dobles dentro de los valores, se puede utilizar el parámetro `quotechar` del módulo `csv` para manejar correctamente las comillas. Este parámetro indica a Python que los valores entre comillas dobles deben ser tratados como un solo campo, incluso si contienen comas o comillas dentro de ellos.
+
+**Ejemplo de lectura con `csv.reader()`**:
+
+```python
+import csv
+
+# Leer archivo CSV con comillas dobles dentro de los valores
+with open('datos.csv', mode='r', newline='', encoding='utf-8') as file:
+    reader = csv.reader(file, quotechar='"')
+    for row in reader:
+        print(row)
+```
+
+### 3. **Escritura de CSV con Comillas Dobles en Python**
+
+Cuando escribimos un archivo CSV, si un valor contiene comas o comillas dobles, el módulo `csv` se encarga de colocar el valor entre comillas dobles y de duplicar las comillas internas.
+
+**Ejemplo de escritura de CSV con comillas dobles**:
+
+```python
+import csv
+
+data = [
+    ['nombre', 'edad', 'comentarios'],
+    ['John "The Rock" Doe', 30, 'Famous wrestler and actor'],
+    ['Ana "The Scientist" Smith', 28, 'Researcher in biology']
+]
+
+# Escribir archivo CSV con comillas dobles
+with open('output.csv', mode='w', newline='', encoding='utf-8') as file:
+    writer = csv.writer(file, quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    writer.writerows(data)
+```
+
+El archivo generado tendrá los valores correctamente escapados:
+```csv
+"nombre","edad","comentarios"
+"John ""The Rock"" Doe",30,"Famous wrestler and actor"
+"Ana ""The Scientist"" Smith",28,"Researcher in biology"
+```
+
+### 4. **Resumen**
+Cuando se manejan archivos CSV que contienen comillas dobles dentro de los valores:
+- **Lectura**: Usa el parámetro `quotechar='"'` para que Python maneje las comillas dobles correctamente.
+- **Escritura**: Python se encarga de colocar las comillas dobles dentro de los valores y duplicarlas para escaparlas.
+  
 
 
 
