@@ -12,7 +12,7 @@ Antes de usar pandas, debes asegurarte de que está instalado en tu entorno de P
 
 ### 1. Abre una terminal:
 
-* En VS Code: `Ver → Terminal` o pulsa `` Ctrl+` ``
+* En VS Code: `Ver → Terminal` o pulsa `` Ctrl+` `` o simplemente `Ctrl+ñ`
 * En Windows: abre `cmd` o `PowerShell`
 * En Linux/macOS: abre tu terminal habitual
 
