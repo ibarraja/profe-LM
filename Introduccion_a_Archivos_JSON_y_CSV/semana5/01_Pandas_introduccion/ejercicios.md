@@ -1,4 +1,4 @@
-# Ejercicios de Introducción a pandas
+to'# Ejercicios de Introducción a pandas
 
 ## Objetivo
 
@@ -34,7 +34,7 @@ Practicar todas las funcionalidades introducidas en el manual de `pandas`, inclu
 
 ### Ejercicio 5. Nueva columna derivada
 
-* Añade una nueva columna llamada `ventas_millones` que redondee `total_sales` a 2 decimales.
+* Añade una nueva columna llamada `ventas_millones` que redondee `total_sales` a 1 decimales.
 * Añade una columna llamada `es_exitoso` que valga `True` si `total_sales` es mayor que 1.
 
 ---
