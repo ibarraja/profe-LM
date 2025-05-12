@@ -1,9 +1,0 @@
-XML 
-XML DTD
-XML Scheme
-XML Tranformtion sheets
-	XML to PDF
-	XML to HTML
-	XML to Latex
-XSL 
-XSLT stylesheet (para hacer bucles)

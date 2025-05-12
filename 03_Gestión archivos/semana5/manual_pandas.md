@@ -1,4 +1,4 @@
-# Manual de Introducción a pandas
+df# Manual de Introducción a pandas
 
 ## 📄 ¿Qué es pandas?
 
